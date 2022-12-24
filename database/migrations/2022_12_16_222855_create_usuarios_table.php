@@ -17,6 +17,8 @@ return new class extends Migration
             $table->increments('id');
             $table->string('password', 50)->nullable();
             $table->string('mail')->nullable();
+            $table->date('fecha_nac')->nullable();
+            $table->string('foto')->nullable();
             $table->integer('persona_id');
             $table->integer('role_id');
         });

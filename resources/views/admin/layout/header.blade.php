@@ -16,6 +16,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('sucursals.index')}}" class="nav-link">Sucursales</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('sucursals.index')}}" class="nav-link">Items</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('usuarios.index')}}" class="nav-link">Usuario</a>
+      </li>
     </ul>
 
     <!-- Right navbar links -->

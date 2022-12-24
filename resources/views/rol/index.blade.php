@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Pagos-Listar')
+@section('title','Roles-Listar')
 @section('page-level-css')
 <style type="text/css">
 </style>  
@@ -10,7 +10,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">PAGOS</h1>
+        <h1 class="m-0">ROLES</h1>
       </div><!-- /.col -->
    
     </div><!-- /.row -->
@@ -20,21 +20,25 @@
 <section class="content">
 
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
+  <div class="row">
+    <div class="col-12">
+        <div class="card">
+            @include('Custom.mensaje')
 
-                <div class="card-body">
-              {{-- @can('tieneacceso', 'rol.create') --}}
-                
-                <a href="{{route('roles.create')}}" 
-                class="btn btn-primary float-right">Crear</a>
-                <br><br> 
-                {{-- @endcan --}}
-             
-                @include('Custom.mensaje')
+            <div class="card-header">
 
-<table class="table table-hover">
+
+                <div class="card-tools">
+
+                    <a href="{{ route('roles.create') }}" class="btn btn-primary float-right">Crear</a>
+
+
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+               
+<table class="table table-hover text-nowrap">
     <thead>
         <tr>
         <th scope="col">#</th>
@@ -81,6 +85,7 @@
         </div>
      </div>
   </div>
+</div>
 </div>
 </section>
 @endsection

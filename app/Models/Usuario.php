@@ -5,9 +5,10 @@
  */
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class Usuario
  * 
@@ -16,6 +17,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string|null $mail
  * @property int $persona_id
  * @property int $role_id
+ * @property Carbon|null $fecha_nac
+ * @property string|null $foto
  * 
  * @property Persona $persona
  * @property Role $role
@@ -32,6 +35,10 @@ class Usuario extends Authenticatable
 		'role_id' => 'int'
 	];
 
+	protected $dates = [
+		'fecha_nac'
+	];
+
 	protected $hidden = [
 		'password'
 	];
@@ -40,7 +47,9 @@ class Usuario extends Authenticatable
 		'password',
 		'mail',
 		'persona_id',
-		'role_id'
+		'role_id',
+		'fecha_nac',
+		'foto'
 	];
 
 	public function persona()
