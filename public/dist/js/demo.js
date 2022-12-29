@@ -71,14 +71,105 @@
   }).on('click', function () {
     if ($(this).is(':checked')) {
       $('body').addClass('dark-mode')
-      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4')
+    //  $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4')
+    EstiloUser('dark')
     } else {
       $('body').removeClass('dark-mode')
-      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4')
+    //$('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4')
+      EstiloUser('light')
     }
   })
   var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Modo Noche</span>')
   $container.append($dark_mode_container)
+
+
+///////////////yop//////////////////////////////////////////////
+
+
+VerficarHora()
+
+/////////////***************Hora User****************************////////////////////////////
+function VerficarHora(){
+  var ahora=new Date();
+ var  hora=ahora.getHours();
+ let horario ="";
+ $('body').addClass('layout-navbar-fixed')
+  if(hora<6){
+    horario = "madrugada";
+    $('body').addClass('dark-mode')
+    EstiloUser('dark')
+  }else if(hora>17 && hora<24)
+  {
+    horario = "noche";
+    $('body').addClass('dark-mode')
+    EstiloUser('dark')
+  }else{
+    horario = "dia";
+    $('body').removeClass('dark-mode')
+    EstiloUser('light')
+   
+  }
+  console.log(horario + hora)
+}
+
+
+/////////////***************Estilo User ****************************////////////////////////////
+function EstiloUser(tema){
+  var fechauser = $('#sideUser').data("fecha")
+  //var fechauserpart = fechauser.split('-')
+  //console.log(fechauser);
+  var fechauser = fechauser.replaceAll('-','/')
+  
+  //fechauser =fechauserpart[2] + "/" + fechauserpart[1] + "/" +fechauserpart[0];
+  var fechaDeNacimiento = new Date(fechauser);
+  console.log(fechaDeNacimiento)
+  var hoy = new Date();
+  var edad = parseInt((hoy - fechaDeNacimiento) / (1000*60*60*24*365));
+  if(edad < 18){
+  
+    console.log("es una wawa");
+    //$(".nav-link active").text();
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-teal elevation-4 bg-teal' )
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-teal')
+      $('.nav-link ').addClass('blanco' )
+      $('#sideUser').removeClass().addClass('d-block blanco')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-teal elevation-4 bg-teal')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-teal')
+      $('.nav-link ').removeClass('blanco')
+      $('#sideUser').removeClass().addClass('d-block')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-teal')
+  }else if( edad >59){
+    console.log("ya ta pasao")
+    $('body').addClass('text-mayor')
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-maroon elevation-4 bg-maroon')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-maroon')
+      $('.nav-link ').removeClass('negro')
+      $('#sideUser').removeClass().addClass('d-block text-normal')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-maroon elevation-4 bg-maroon')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-maroon')
+      $('.nav-link').addClass('negro' )
+      $('.nav-link.active').removeClass('negro').addClass('blanco' )
+      $('#sideUser').removeClass().addClass('d-block negro text-normal')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-maroon')
+  }else{
+    console.log("años dorados")
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4 bg-primary')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-primary')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4 bg-primary')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-primary')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-primary')
+  }
+
+}
 
   /////////////////////////////>>Header Options////////////////////////////////////////////////
 
@@ -707,4 +798,8 @@
     $brand_variants.find('option.' + active_brand_color).prop('selected', true)
     $brand_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_brand_color)
   }
+
+
+
+
 })(jQuery)
