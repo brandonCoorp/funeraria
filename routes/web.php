@@ -6,6 +6,15 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\PaqueteController;
+use App\Http\Controllers\CompraController;
+use App\Http\Controllers\ComisionController;
+use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\ClienteController;
+
+use App\Http\Controllers\AutoCompletarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,3 +47,23 @@ Route::resource('roles', RolController::class)->middleware('auth:usuario');
 Route::resource('pagos', PagoController::class)->middleware('auth:usuario');
 Route::resource('sucursals', SucursalController::class)->middleware('auth:usuario');
 Route::resource('usuarios', UsuarioController::class)->middleware('auth:usuario');
+Route::resource('items', ItemController::class)->middleware('auth:usuario');
+Route::resource('servicios', ServicioController::class)->middleware('auth:usuario');
+Route::resource('paquetes', PaqueteController::class)->middleware('auth:usuario');
+
+Route::resource('compras', CompraController::class)->middleware('auth:usuario');
+
+Route::resource('comisions', ComisionController::class)->middleware('auth:usuario');
+Route::resource('contratos', ContratoController::class)->middleware('auth:usuario');
+Route::resource('clientes', ClienteController::class)->middleware('auth:usuario');
+
+Route::get('contratos/generear/{id}', [ContratoController::class, 'VerContrato'])->name('vercontrato')->middleware('auth:usuario');
+//Shearchs
+
+
+Route::get('search', [AutoCompletarController::class, 'index'])->name('search');
+Route::get('autocomplete', [AutoCompletarController::class, 'search'])->name('autocomplete');
+
+
+
+

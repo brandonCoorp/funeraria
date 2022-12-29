@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Persona;
 use App\Models\Role;
+use App\Models\Usuariofotofecha;
 use DateTime;
 use Hash;
 use Storage;
@@ -19,13 +20,13 @@ class UsuarioController extends Controller
     public function index()
     {
         //
-      //  $usuarios =Usuario::orderBy('id','Asc')->persona->paginate(10);
-        $usuarios =Usuario::join("roles","usuarios.role_id","=","roles.id")
+        $usuarios =Usuario::orderBy('id','Asc')->paginate(3);
+        /*$usuarios =Usuario::join("roles","usuarios.role_id","=","roles.id")
         ->select("usuarios.id","usuarios.fecha_nac","usuarios.foto","personas.nombre",
         "personas.apellido_paterno","personas.apellido_materno",
         "usuarios.mail","personas.direccion","roles.nombre as rol","roles.id as rol_id")
         ->join("personas","usuarios.persona_id","=","personas.id")
-        ->orderBy('usuarios.id','Asc')->paginate(3);
+        ->orderBy('usuarios.id','Asc')->paginate(3);*/
         //$persona  = $usuarios->persona;
       // dd($usuarios);
         return view('usuario.index',compact('usuarios'));
@@ -53,17 +54,17 @@ class UsuarioController extends Controller
     {
         //
            //('tieneacceso','rol.create');
-          // dd($request->only('fecha_nac'));
+       //  dd($request);
         $request->validate([
-            'nombre' => 'required',
-            'apellido_materno' => 'required',
-            'apellido_materno' => 'required',
-            'direccion' => 'required',
+            'nombre' => 'required|max:255',
+            'apellido_materno' => 'required|max:255',
+            'apellido_materno' => 'required|max:255',
+            'direccion' => 'required|max:255',
             'fecha_nac' => ['required', 'date','after:1920/01/01','before:2023/01/01'],           
-            'mail'=>'required|email|unique:usuarios,mail',     
-            'password' => 'required|min:6',
+            'mail'=>'required|max:255|email|unique:usuarios,mail',     
+            'password' => 'required|min:6|max:255',
             'foto' =>  ['mimes:jpg,png,jfif,jpeg','max:2048'],
-            'rol' => 'required',
+            'rol' => ['required','numeric','min:1']
 
         ]);
 
@@ -83,14 +84,18 @@ class UsuarioController extends Controller
                 $url = 'dist/img/default-150x150.png';
             }
             $persona = Persona::create($request->all());
-            Usuario::create([
+            $usuario  =Usuario::create([
                 'persona_id' => $persona->id,
                 'role_id' => $request->input('rol'),
-                'mail' =>  $request->input('mail'),
-                'fecha_nac' =>  $request->input('fecha_nac'),
-                'foto' =>  $url,                   
+                'mail' =>  $request->input('mail'),                  
                 'password' => Hash::make($request->input('password'))
               ]);
+              Usuariofotofecha::create([
+                'usuario_id' => $usuario->id,
+                'fecha_nac' =>  $request->input('fecha_nac'),
+                'foto' =>  $url             
+              ]);
+
             return redirect()->route('usuarios.index')->with('status_success','Usuario guardado con Exito');
     }
 
@@ -135,14 +140,15 @@ class UsuarioController extends Controller
         $usuario=Usuario::find($id);
         $persona=Persona::find($usuario->persona_id);
         $request->validate([
-            'nombre' => 'required',
-            'apellido_materno' => 'required',
-            'apellido_materno' => 'required',
-            'direccion' => 'required',
+            'nombre' => 'required|max:255',
+            'apellido_materno' => 'required|max:255',
+            'apellido_materno' => 'required|max:255',
+            'direccion' => 'required|max:255',
             'fecha_nac' => ['required', 'date','after:1920/01/01','before:2023/01/01'],           
-            'mail'=>'required|email|unique:usuarios,mail,'.$usuario->id,     
+            'mail'=>'required|max:255|email|unique:usuarios,mail,'.$usuario->id,     
             'foto' =>  ['mimes:jpg,png,jfif,jpeg','max:2048'],
-            'rol' => 'required',
+            'rol' => ['required','numeric','min:1'],
+            'password' => 'max:255',
 
         ]);
        // dd($request);
@@ -154,22 +160,23 @@ class UsuarioController extends Controller
             $nombre = $request->input('mail').'.'.$extension;
             $ruta=public_path().'/dist/img/';
 
-            if(Storage::disk('public')->exists($usuario->foto) ){
-                if($usuario->foto != 'dist/img/default-150x150.png'){
-                     Storage::disk('public')->delete($usuario->foto);}
+            if(Storage::disk('public')->exists($usuario->usuariofotofechas[0]->foto) ){
+                if($usuario->usuariofotofechas[0]->foto != 'dist/img/default-150x150.png'){
+                     Storage::disk('public')->delete($usuario->usuariofotofechas[0]->foto);}
             }
             $image->move($ruta,$nombre);
             $url = 'dist/img/'.$nombre;
 
-            $usuario->foto =  $url;    
+            $usuario->usuariofotofechas[0]->foto =  $url;    
         }
         if( $request->input('password') != null){      
         $usuario->password = Hash::make($request->input('password'));
 
         }
-        $usuario->fecha_nac = $request->input('fecha_nac');
+        $usuario->usuariofotofechas[0]->fecha_nac = $request->input('fecha_nac');
         $usuario->mail = $request->input('mail');
         $usuario->role_id = $request->input('rol');
+        $usuario->usuariofotofechas[0]->save();
         $usuario->save();
 
         return redirect()->route('usuarios.index')->with('status_success','Usuario Modificado con Exito');
@@ -186,12 +193,14 @@ class UsuarioController extends Controller
         //
         $usuario=Usuario::findOrFail($id);
         $persona_id = $usuario->persona_id;
-        if(Storage::disk('public')->exists($usuario->foto) ){
+        if(Storage::disk('public')->exists($usuario->usuariofotofechas[0]->foto) ){
 
-            if($usuario->foto != 'dist/img/default-150x150.png'){
-                Storage::disk('public')->delete($usuario->foto);}
+            if($usuario->usuariofotofechas[0]->foto != 'dist/img/default-150x150.png'){
+                Storage::disk('public')->delete($usuario->usuariofotofechas[0]->foto);}
         }
+        Usuariofotofecha::where('usuario_id', $usuario->id)->delete();
         $usuario->delete();
+
         Persona::where('id', $persona_id)->delete();
         
         

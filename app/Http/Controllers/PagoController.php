@@ -115,4 +115,8 @@ class PagoController extends Controller
         
         return redirect()->route('pagos.index')->with('status_success','Pago Eliminado con Exito');
     }
+
+
+   
+   
 }

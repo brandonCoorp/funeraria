@@ -1,0 +1,19 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  #target td {
+    /* para centrado vertical de contenido */
+    vertical-align: middle;
+  }
+
+.azul{
+
+    background-color: #04a8e9ec;
+    color: white;
+}
+
+.invisible {
+  opacity: 0;
+}

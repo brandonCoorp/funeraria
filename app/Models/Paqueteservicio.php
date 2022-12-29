@@ -32,7 +32,9 @@ class Paqueteservicio extends Model
 	];
 
 	protected $fillable = [
-		'cod_servicio'
+		'cod_servicio',
+		'paquete_id',
+		'servicio_id'
 	];
 
 	public function paquete()

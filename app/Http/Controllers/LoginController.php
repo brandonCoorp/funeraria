@@ -30,6 +30,7 @@ class LoginController extends Controller
    
         $credentials = $request->only('mail', 'password');
         if (Auth::guard('usuario')->attempt($credentials)) {
+           
             return redirect()->intended('admin')
                         ->withSuccess('Signed in');
         }

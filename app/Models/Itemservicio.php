@@ -34,6 +34,8 @@ class Itemservicio extends Model
 	];
 
 	protected $fillable = [
+		'item_id',
+		'servicio_id',
 		'cantidad',
 		'cod_item'
 	];

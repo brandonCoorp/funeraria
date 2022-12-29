@@ -50,7 +50,7 @@
                 <label>Fecha de Nacimiento:</label>            
                 <div class="input-group date" id="datepicker">
                     <input type="text" class="form-control"  name="fecha_nac" 
-                    value="{{old('fecha_nac', $usuario->fecha_nac)}}" min="1921-01-01" max="2023-01-01" required>
+                    value="{{old('fecha_nac', $usuario->usuariofotofechas[0]->fecha_nac->format('d-m-Y'))}}" min="1921-01-01" max="2023-01-01" required>
                     <span class="input-group-append">
                     <span class="input-group-text bg-white d-block">
                     <i class="fa fa-calendar"></i>
@@ -85,7 +85,7 @@
               </div>
             </div>
             <div class="form-group foto-perfil">
-                <img id="blah" src="{{ asset($usuario->foto)}}" alt="your image"  width="200px"/>
+                <img id="blah" src="{{ asset($usuario->usuariofotofechas[0]->foto)}}" alt="your image"  width="200px"/>
             </div>
             <div class="form-group">
                 <label>Selecione Rol</label>

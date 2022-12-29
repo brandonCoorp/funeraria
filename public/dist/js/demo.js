@@ -14,7 +14,7 @@
     if (window.___browserSync___ === undefined && Number(localStorage.getItem('AdminLTE:Demo:MessageShowed')) < Date.now()) {
       localStorage.setItem('AdminLTE:Demo:MessageShowed', (Date.now()) + (15 * 60 * 1000))
       // eslint-disable-next-line no-alert
-      alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
+    //  alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
     }
   }, 1000)
 
@@ -60,7 +60,7 @@
   // Checkboxes
 
   $container.append(
-    '<h5>Customize AdminLTE</h5><hr class="mb-2"/>'
+    '<h5>Funeraria</h5><hr class="mb-2"/>'
   )
 
   var $dark_mode_checkbox = $('<input />', {
@@ -71,12 +71,16 @@
   }).on('click', function () {
     if ($(this).is(':checked')) {
       $('body').addClass('dark-mode')
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4')
     } else {
       $('body').removeClass('dark-mode')
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4')
     }
   })
-  var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Dark Mode</span>')
+  var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Modo Noche</span>')
   $container.append($dark_mode_container)
+
+  /////////////////////////////>>Header Options////////////////////////////////////////////////
 
   $container.append('<h6>Header Options</h6>')
   var $header_fixed_checkbox = $('<input />', {
@@ -124,6 +128,8 @@
   var $no_border_container = $('<div />', { class: 'mb-4' }).append($no_border_checkbox).append('<span>No border</span>')
   $container.append($no_border_container)
 
+  /////////////////////////////>>Sidebar Options////////////////////////////////////////////////
+  
   $container.append('<h6>Sidebar Options</h6>')
 
   var $sidebar_collapsed_checkbox = $('<input />', {
@@ -302,6 +308,8 @@
   var $no_expand_sidebar_container = $('<div />', { class: 'mb-4' }).append($no_expand_sidebar_checkbox).append('<span>Disable Hover/Focus Auto-Expand</span>')
   $container.append($no_expand_sidebar_container)
 
+  /////////////////////////////>>Footer Options////////////////////////////////////////////////
+
   $container.append('<h6>Footer Options</h6>')
   var $footer_fixed_checkbox = $('<input />', {
     type: 'checkbox',
@@ -318,6 +326,9 @@
   var $footer_fixed_container = $('<div />', { class: 'mb-4' }).append($footer_fixed_checkbox).append('<span>Fixed</span>')
   $container.append($footer_fixed_container)
 
+
+/////////////////////////////>Small Text Options////////////////////////////////////////////////
+  
   $container.append('<h6>Small Text Options</h6>')
 
   var $text_sm_body_checkbox = $('<input />', {
@@ -496,7 +507,7 @@
   ]
 
   // Navbar Variants
-
+/////////////////////////////Navbar Variants////////////////////////////////////////////////
   $container.append('<h6>Navbar Variants</h6>')
 
   var $navbar_variants = $('<div />', {
@@ -539,6 +550,7 @@
   $container.append($navbar_variants)
 
   // Sidebar Colors
+/////////////////////////////Accent Color  Variants////////////////////////////////////////////////
 
   $container.append('<h6>Accent Color Variants</h6>')
   var $accent_variants = $('<div />', {
@@ -567,6 +579,9 @@
   // $accent_variants.find('option.' + active_accent_color).prop('selected', true)
   // $accent_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_accent_color)
 
+
+/////////////////////////////Dark Sidebar Variants////////////////////////////////////////////////
+
   $container.append('<h6>Dark Sidebar Variants</h6>')
   var $sidebar_variants_dark = $('<div />', {
     class: 'd-flex'
@@ -577,10 +592,11 @@
     var sidebar_class = 'sidebar-dark-' + color.replace('bg-', '')
     var $sidebar = $('.main-sidebar')
     sidebar_skins.forEach(function (skin) {
+     
       $sidebar.removeClass(skin)
       $sidebar_light_variants.removeClass(skin.replace('sidebar-dark-', 'bg-')).removeClass('text-light')
     })
-
+    console.log($(this))
     $(this).removeClass().addClass('custom-select mb-3 text-light border-0').addClass(color)
 
     $sidebar_light_variants.find('option').prop('selected', false)
@@ -599,6 +615,9 @@
 
   $sidebar_dark_variants.find('option.' + active_sidebar_dark_color).prop('selected', true)
   $sidebar_dark_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_sidebar_dark_color)
+
+
+/////////////////////////////Light Sidebar Variants////////////////////////////////////////////////
 
   $container.append('<h6>Light Sidebar Variants</h6>')
   var $sidebar_variants_light = $('<div />', {
@@ -635,6 +654,8 @@
     $sidebar_light_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_sidebar_light_color)
   }
 
+
+  ////////////////////////Brand Logo Variants//////////////////
   var logo_skins = navbar_all_colors
   $container.append('<h6>Brand Logo Variants</h6>')
   var $logo_variants = $('<div />', {
