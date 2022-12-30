@@ -8,6 +8,8 @@ use Session;
 use App\Models\Usuario;
 use App\Models\Persona;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Visita;
+use Carbon\Carbon;
 class LoginController extends Controller
 {
     //
@@ -30,7 +32,8 @@ class LoginController extends Controller
    
         $credentials = $request->only('mail', 'password');
         if (Auth::guard('usuario')->attempt($credentials)) {
-           
+            $visita = $this->crearVisita();
+            session(['prueba' => $visita->id]);
             return redirect()->intended('admin')
                         ->withSuccess('Signed in');
         }
@@ -95,5 +98,14 @@ class LoginController extends Controller
         Auth::logout();
   
         return Redirect('/');
+    }
+
+    private function crearVisita(){
+        $fecha = Carbon::now()->Format('Y-m-d');
+       return Visita::create([
+            'contador' => 0,
+            'fecha' => $fecha,
+            'usuario_id' => auth('usuario')->user()->id
+          ]);
     }
 }

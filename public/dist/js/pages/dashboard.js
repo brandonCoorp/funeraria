@@ -5,6 +5,8 @@
  *      This is a demo file used only for the main dashboard (index.html)
  **/
 
+
+
 /* global moment:false, Chart:false, Sparkline:false */
 
 $(function () {
@@ -65,7 +67,7 @@ $(function () {
     RU: 3000 // Russia
   }
   // World map by jvectormap
-  $('#world-map').vectorMap({
+ /* $('#world-map').vectorMap({
     map: 'usa_en',
     backgroundColor: 'transparent',
     regionStyle: {
@@ -89,7 +91,7 @@ $(function () {
         el.html(el.html() + ': ' + visitorsData[code] + ' new visitors')
       }
     }
-  })
+  })*/
 
   // Sparkline charts
   var sparkline1 = new Sparkline($('#sparkline-1')[0], { width: 80, height: 50, lineColor: '#92c1dc', endColor: '#ebf4f9' })
@@ -112,12 +114,72 @@ $(function () {
   })
 
   /* Chart.js Charts */
+
+///////////////////////CODIGO MY///////////////////////////////////////
+  /****************** Obtener Compras y  Paquetes ********************/
+  var  comprasXmes 
+  $.ajax({
+    type: "GET",
+    url: "api/ReporteEstadistica/comprasMes",
+    async: false,
+    success: function(response) { comprasXmes = response; }
+ });
+
+var  paquetesXaño 
+  $.ajax({
+    type: "GET",
+    url: "api/ReporteEstadistica/paquetesAño",
+    async: false,
+    success: function(response) { paquetesXaño = response; }
+ });
+//console.log(paquetesXaño)
+var mesAño =  ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre'];
+var mesAñoIngles =  ['January', 'February', 'March','April','May','June','July','August','September','October','November','December'];
+
+var datosS = mesAñoIngles.map(myFunction)
+function myFunction(num) {
+  var value = 0;
+  comprasXmes.forEach(element => {
+  
+      if(element.mes.includes(num)){ value = element.count}
+  })
+  return value;
+}
+//console.log(comprasXmes);
+//console.log(datosS);
+var paqueteData =[];
+var paqueteNombre =[];
+var paqueteColor =[];
+paquetesXaño.forEach(element => {
+  paqueteNombre.push(element.nombre)
+  paqueteData.push(element.count)
+  paqueteColor.push(colorHEX())
+})
+
+
+
+function generarLetra(){
+	var letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
+	var numero = (Math.random()*15).toFixed(0);
+	return letras[numero];
+}
+	
+function colorHEX(){
+	var coolor = "";
+	for(var i=0;i<6;i++){
+		coolor = coolor + generarLetra() ;
+	}
+	return "#" + coolor;
+}
+///////////////////////////////////////////////////////////////////////////////////
+
+
   // Sales chart
   var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d')
   // $('#revenue-chart').get(0).getContext('2d');
 
   var salesChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: mesAño,
     datasets: [
       {
         label: 'Digital Goods',
@@ -175,15 +237,11 @@ $(function () {
   // Donut Chart
   var pieChartCanvas = $('#sales-chart-canvas').get(0).getContext('2d')
   var pieData = {
-    labels: [
-      'Instore Sales',
-      'Download Sales',
-      'Mail-Order Sales'
-    ],
+    labels:paqueteNombre,
     datasets: [
       {
-        data: [30, 12, 20],
-        backgroundColor: ['#f56954', '#00a65a', '#f39c12']
+        data:paqueteData,
+        backgroundColor: paqueteColor
       }
     ]
   }
@@ -203,12 +261,13 @@ $(function () {
     options: pieOptions
   })
 
+
+
   // Sales graph chart
   var salesGraphChartCanvas = $('#line-chart').get(0).getContext('2d')
   // $('#revenue-chart').get(0).getContext('2d');
-
-  var salesGraphChartData = {
-    labels: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4', '2013 Q1', '2013 Q2'],
+ var salesGraphChartData = {
+    labels: mesAño,
     datasets: [
       {
         label: 'Digital Goods',
@@ -221,7 +280,7 @@ $(function () {
         pointHoverRadius: 7,
         pointColor: '#efefef',
         pointBackgroundColor: '#efefef',
-        data: [2666, 2778, 4912, 3767, 6810, 5670, 4820, 15073, 10687, 8432]
+        data: datosS
       }
     ]
   }

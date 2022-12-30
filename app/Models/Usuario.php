@@ -21,6 +21,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Persona $persona
  * @property Role $role
  * @property Collection|Usuariofotofecha[] $usuariofotofechas
+ * @property Collection|Visita[] $visitas
  *
  * @package App\Models
  */
@@ -58,5 +59,10 @@ class Usuario extends Authenticatable
 	public function usuariofotofechas()
 	{
 		return $this->hasMany(Usuariofotofecha::class);
+	}
+
+	public function visitas()
+	{
+		return $this->hasMany(Visita::class);
 	}
 }

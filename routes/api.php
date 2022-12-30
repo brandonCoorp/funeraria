@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
 
 use App\Http\Controllers\AutoCompletarController;
+use App\Http\Controllers\VisitaController;
+use App\Http\Controllers\ReporteEstadisticaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('paquete/servicios/{id}', [PaqueteController::class, 'getServicioPaquete']);
 Route::get('autocomplete/{id}', [AutoCompletarController::class, 'search']);
 
+Route::get('visita/{id}', [VisitaController::class, 'obtenerCantidadVisita']);
+Route::get('ReporteEstadistica/comprasMes', [ReporteEstadisticaController::class, 'ObtenerCompraXMes']);
+Route::get('ReporteEstadistica/paquetesAño', [ReporteEstadisticaController::class, 'ObtenerPaqueteXAño']);

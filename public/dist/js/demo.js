@@ -171,6 +171,43 @@ function EstiloUser(tema){
 
 }
 
+
+/////////////***************Visita User ****************************////////////////////////////
+contador(); 
+
+function  contador(){
+var id = $('#sideUser').data("visita")
+var pathname = window.location.pathname;
+var paths =  pathname.split('/')
+var cant = paths.length -1
+
+cant = cant //- 5;
+var path = '';
+for (let index = 0; index < cant; index++) {
+  path = path + '../'  
+}
+path = path + 'api/visita/'  
+console.log("cantida: "+cant)
+
+/*var index = pathname.indexOf('edit');
+
+console.log(pathname);
+if(index >= 0) {
+  path = '../../api/visita/'
+  console.log('tiene edit')
+} else {
+  path = 'api/visita/'
+  console.log('Not tiene edit')
+}*/
+  $.get(path+id, function(data) {
+  console.log(data);
+  $('#contador').text(data);
+  
+});  
+ }
+
+
+
   /////////////////////////////>>Header Options////////////////////////////////////////////////
 
   $container.append('<h6>Header Options</h6>')

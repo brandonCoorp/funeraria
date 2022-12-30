@@ -1,7 +1,7 @@
 <footer class="main-footer">
     <strong>Copyright &copy; 2022-2022 <a href="https://adminlte.io">Grupo 12sa</a>.</strong>
-    All rights reserved.
+    Todos los derechos Reservados.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>Contador de Visitas :</b> <label id="contador">0</label>
     </div>
   </footer>

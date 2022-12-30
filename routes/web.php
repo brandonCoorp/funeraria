@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\SucursalController;
@@ -31,9 +32,9 @@ use App\Http\Controllers\AutoCompletarController;
 });*/
 
 
-Route::view('admin','admin.dashboard')->name('home');
+Route::get('admin',[HomeController::class, 'home'])->name('home')->middleware('auth:usuario');
 
-Route::view('admin/user-add','admin.user-add-form');
+Route::view('admin/user-add','admin.user-add-form')->middleware('auth:usuario');;
 
 //Route::get('dashboard', [LoginController::class, 'dashboard']); 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest:usuario');

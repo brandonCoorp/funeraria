@@ -32,14 +32,14 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
+                  <h3>{{$compraMes}}</h3>
   
-                  <p>New Orders</p>
+                  <p>Compras Este Mes</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Mas info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -47,14 +47,14 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+                  <h3>{{$compraCostoMes}}<sup style="font-size: 20px">Bs</sup></h3>
   
-                  <p>Bounce Rate</p>
+                  <p>Ventas del Mes Bs.</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Mas info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -62,14 +62,14 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
+                  <h3>{{$clientes}}</h3>
   
-                  <p>User Registrations</p>
+                  <p>Cantidad de Clientes</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Mas info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -77,14 +77,14 @@
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
+                  <h3>{{$visitas}}</h3>
   
-                  <p>Unique Visitors</p>
+                  <p>Cantidad de visitas este Mes</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Mas info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -99,7 +99,7 @@
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Sales
+                    Compras Paquetes por Año
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -113,13 +113,13 @@
                   </div>
                 </div><!-- /.card-header -->
                 <div class="card-body">
-                  <div class="tab-content p-0">
+                  <div class="tab-content p-0" id="comprasxMes" >
                     <!-- Morris chart - Sales -->
                     <div class="chart tab-pane active" id="revenue-chart"
                          style="position: relative; height: 300px;">
                         <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
                      </div>
-                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;" >
                       <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
                     </div>
                   </div>
@@ -128,7 +128,7 @@
               <!-- /.card -->
   
               <!-- DIRECT CHAT -->
-              <div class="card direct-chat direct-chat-primary">
+              <div class="card direct-chat direct-chat-primary" hidden="none">
                 <div class="card-header">
                   <h3 class="card-title">Direct Chat</h3>
   
@@ -330,7 +330,7 @@
               <!--/.direct-chat -->
   
               <!-- TO DO List -->
-              <div class="card">
+              <div class="card" hidden="none">
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="ion ion-clipboard mr-1"></i>
@@ -465,7 +465,7 @@
             <section class="col-lg-5 connectedSortable">
   
               <!-- Map card -->
-              <div class="card bg-gradient-primary">
+              <div class="card bg-gradient-primary" hidden="none">
                 <div class="card-header border-0">
                   <h3 class="card-title">
                     <i class="fas fa-map-marker-alt mr-1"></i>
@@ -514,7 +514,7 @@
                 <div class="card-header border-0">
                   <h3 class="card-title">
                     <i class="fas fa-th mr-1"></i>
-                    Sales Graph
+                    Grafico de Ventas
                   </h3>
   
                   <div class="card-tools">
@@ -532,26 +532,16 @@
                 <!-- /.card-body -->
                 <div class="card-footer bg-transparent">
                   <div class="row">
+                    @foreach ($pagos as $pago)
                     <div class="col-4 text-center">
-                      <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
+                      <input type="text" class="knob" data-readonly="true" value="{{$pago->prom}}" data-width="60" data-height="60"
                              data-fgColor="#39CCCC">
   
-                      <div class="text-white">Mail-Orders</div>
+                      <div class="text-white">{{$pago->nombre}}</div>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-4 text-center">
-                      <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                             data-fgColor="#39CCCC">
-  
-                      <div class="text-white">Online</div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-4 text-center">
-                      <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                             data-fgColor="#39CCCC">
-  
-                      <div class="text-white">In-Store</div>
-                    </div>
+                    @endforeach
+
+                  
                     <!-- ./col -->
                   </div>
                   <!-- /.row -->
@@ -561,7 +551,7 @@
               <!-- /.card -->
   
               <!-- Calendar -->
-              <div class="card bg-gradient-success">
+              <div class="card bg-gradient-success" hidden="none">
                 <div class="card-header border-0">
   
                   <h3 class="card-title">

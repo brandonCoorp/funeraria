@@ -13,7 +13,8 @@
           <img src="{{ asset(auth('usuario')->user()->usuariofotofechas[0]->foto)}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block" data-fecha="{{ auth('usuario')->user()->usuariofotofechas[0]->fecha_nac->format('Y-m-d') }}" id="sideUser">
+          <a href="#" class="d-block" data-visita="{{session('prueba')}}";
+          data-fecha="{{ auth('usuario')->user()->usuariofotofechas[0]->fecha_nac->format('Y-m-d') }}" id="sideUser">
             {{ auth('usuario')->user()->mail; }}</a>
         </div>
       </div>
@@ -28,7 +29,7 @@
             <a href="{{route('home')}}" class="nav-link {{ Request::is('admin') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Dashboard
+                Dashboard 
               </p>
             </a>
           </li>
