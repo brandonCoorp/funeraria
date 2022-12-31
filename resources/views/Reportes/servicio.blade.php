@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Admin-UserAdd')
+@section('title','Reportes-Fun')
 @section('page-level-css')
 
   <!-- DataTables -->
@@ -42,50 +42,54 @@
                     
              <h2>Reportes Funeraria</h2>
              <div class="form-group">
+                @include('Custom.mensaje')
+
+                <form action="{{route('reportes')}}" method="POST" id="formReporte">
+                  @csrf
                  <label>Selecione Reporte</label>
-                 <select class="form-control" name="reporte" id="reporte" required>
-                     <option selected value="0">Items</option>
-                     <option  value="0">Usuarios</option>
-                     <option  value="0">Pagos</option>
-                     <option  value="0">Roles</option>
-                     <option  value="0">Sucursales</option>
-                   
-                     <option  value="0">Servicios</option>
-                     <option  value="0">Paquetes</option>
-                     <option  value="0">Comisiones</option>
-                     <option  value="0">Contratos</option>
-                    
+                 <select class="form-control selectOption" name="selectReporte" id="selectReporte" required>
+                     <option class="selectOption"  value="compras">Compras</option>
+                     <option  class="selectOption" value="usuarios">Usuarios</option>
+                     <option  class="selectOption"  value="clientes">Clientes</option>
+                     <option  class="selectOption" value="pagos">Pagos</option>
+                     <option  class="selectOption" value="roles">Roles</option>
+                     <option  class="selectOption" value="sucursales">Sucursales</option>
+                     <option class="selectOption"  value="items">Items</option>
+                     <option  class="selectOption" selected value="servicios">Servicios</option>
+                     <option  class="selectOption" value="paquetes">Paquetes</option>
+                     <option  class="selectOption"  value="comisiones">Comisiones</option>
+                     <option  class="selectOption"  value="contratos">Contratos</option>
+                     <option  class="selectOption" value="activos">Activos</option>
                  </select>
+                
+           </form>
                </div>
                     <table id="reportes" class="table table-bordered table-striped">
                       <thead>
                       <tr>
-                        <th>Nombre</th>
-                        <th>Codigo</th>
-                        <th>Descripcion(s)</th>
-                        <th>Precio</th>
-                      
+                        @foreach ($nombreDatos as $nombreDato)
+                        <th>{{$nombreDato}}</th>
+                        @endforeach
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0
-                        </td>
-                        <td>Win 95+</td>
-                        <td> 4</td>
-                       
-                      </tr>             
-                    
+                      
+                        @foreach ($datos as $dato)
+                        <tr>
+                        <td>{{$dato->id}}</td>
+                        <td>{{$dato->cod_servicio}}</td>
+                        <td>{{$dato->nombre}}</td>
+                        <td>{{$dato->descripcion}}</td>
+                        <td>{{$dato->costo}} Bs.</td>
+                    </tr>        
+                        @endforeach
+                
                       </tbody>
                       <tfoot>
                       <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                       
+                        @foreach ($nombreDatos as $nombreDato)
+                        <th>{{$nombreDato}}</th>
+                        @endforeach                    
                       </tr>
                       </tfoot>
                     </table>

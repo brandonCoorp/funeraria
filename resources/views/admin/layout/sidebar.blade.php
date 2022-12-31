@@ -137,6 +137,15 @@
     </p>
   </a>          
 </li>
+<li class="nav-item">
+  <a href="{{route('reportes.index')}}" class="nav-link {{ Request::is('reportes*') ? 'active' : '' }}">
+    <i class="fas fa-file-signature"></i>
+    <p>
+      Reportes
+    </p>
+  </a>          
+</li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

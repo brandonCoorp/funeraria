@@ -16,6 +16,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\ClienteController;
 
 use App\Http\Controllers\AutoCompletarController;
+use App\Http\Controllers\ReporteEstadisticaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +35,7 @@ use App\Http\Controllers\AutoCompletarController;
 
 Route::get('admin',[HomeController::class, 'home'])->name('home')->middleware('auth:usuario');
 
-Route::view('admin/user-add','admin.user-add-form')->middleware('auth:usuario');;
+Route::view('admin/user-add','Reportes.Reportes')->middleware('auth:usuario');;
 
 //Route::get('dashboard', [LoginController::class, 'dashboard']); 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest:usuario');
@@ -65,6 +66,7 @@ Route::get('contratos/generear/{id}', [ContratoController::class, 'VerContrato']
 Route::get('search', [AutoCompletarController::class, 'index'])->name('search');
 Route::get('autocomplete', [AutoCompletarController::class, 'search'])->name('autocomplete');
 
-
+Route::post('reportes', [ReporteEstadisticaController::class, 'obtenerReporte'])->name('reportes'); 
+Route::get('reportes', [ReporteEstadisticaController::class, 'reportes'])->name('reportes.index');
 
 
