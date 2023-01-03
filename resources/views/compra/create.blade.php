@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Compra-Crear')
+@section('title','Venta-Crear')
 @section('page-level-css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
 <style type="text/css">
@@ -15,7 +15,7 @@
     @include('Custom.mensaje')
     <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Nueva Compra</h3>
+          <h3 class="card-title">Nueva Venta</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->

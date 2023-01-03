@@ -29,3 +29,6 @@ Route::get('autocomplete/{id}', [AutoCompletarController::class, 'search']);
 Route::get('visita/{id}', [VisitaController::class, 'obtenerCantidadVisita']);
 Route::get('ReporteEstadistica/comprasMes', [ReporteEstadisticaController::class, 'ObtenerCompraXMes']);
 Route::get('ReporteEstadistica/paquetesAño', [ReporteEstadisticaController::class, 'ObtenerPaqueteXAño']);
+
+Route::get('estilo/{conf}/{id}', [VisitaController::class, 'actualizarEstilo']);
+Route::get('tema/{conf}/{id}', [VisitaController::class, 'actualizarTema']);

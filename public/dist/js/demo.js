@@ -69,14 +69,59 @@
     checked: $('body').hasClass('dark-mode'),
     class: 'mr-1'
   }).on('click', function () {
+    let idOpciones = $('#sideUser').data('opcionid')
     if ($(this).is(':checked')) {
       $('body').addClass('dark-mode')
+     let tipo = $("input[name=estilos]:checked").val()
+      if(tipo == 1){
+        estilosElegidos('niño','dark')
+      }else if(tipo == 2){
+        estilosElegidos('joven','dark')
+      }else if(tipo == 3){
+        estilosElegidos('adulto','dark')
+      }else{
+        let estilo = $('#sideUser').data('estilo')
+        if(estilo == 'default'){
+          EstiloUser('dark')
+        }else{
+          estilosElegidos(estilo,'dark')
+        }    
+        console.log("no hay cheked");
+      }
     //  $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4')
-    EstiloUser('dark')
+   // EstiloUser('dark')
+    
+    console.log("opciones : "+ idOpciones)
+   // path = path + 'api/visita/'  
+   let path = obtenerPath();
+   $.get(path+'api/tema/dark/'+idOpciones, function(data) {
+    console.log(data);
+ }); 
     } else {
       $('body').removeClass('dark-mode')
+      //console.log($("input[name=estilos]:checked").val())
+      let tipo = $("input[name=estilos]:checked").val()
+      if(tipo == 1){
+        estilosElegidos('niño','blanco')
+      }else if(tipo == 2){
+        estilosElegidos('joven','blanco')
+      }else if(tipo == 3){
+        estilosElegidos('adulto','blanco')
+      }else{
+        let estilo = $('#sideUser').data('estilo')
+        if(estilo == 'default'){
+          EstiloUser('light')
+        }else{
+          estilosElegidos(estilo,'light')
+        }    
+       // EstiloUser('light')
+      }
     //$('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4')
-      EstiloUser('light')
+   //   EstiloUser('light')
+   let path = obtenerPath();
+   $.get(path+'api/tema/light/'+idOpciones, function(data) {
+    console.log(data);
+ }); 
     }
   })
   var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Modo Noche</span>')
@@ -85,15 +130,49 @@
 
 ///////////////yop//////////////////////////////////////////////
 
+VerificarOpcionesEstilos();
 
-VerficarHora()
+
+function VerificarOpcionesEstilos(){
+  let idOpciones = $('#sideUser').data('opcionid')
+  let tema = $('#sideUser').data('tema')
+  let estilo = $('#sideUser').data('estilo')
+
+  $('body').addClass('layout-navbar-fixed')
+ 
+
+  if(tema == 'default' && estilo == 'default'){
+    VerficarHora()
+  }else if(tema == 'default' && estilo != 'default') {
+
+ //sabemos que es niño joven o adulto
+  let buscarTema = VerficarHoraOpcion();
+  estilosElegidos(estilo,buscarTema);
+
+  }else if(tema != 'default' && estilo == 'default'){
+    //sabemos que tema es 
+    if(tema == 'dark'){
+      $('body').addClass('dark-mode')
+    }else{
+      $('body').removeClass('dark-mode')
+    }
+    EstiloUser(tema)
+  }else{
+    if(tema == 'dark'){
+      $('body').addClass('dark-mode')
+    }else{
+      $('body').removeClass('dark-mode')
+    }
+    estilosElegidos(estilo,tema);
+  }
+}
+
 
 /////////////***************Hora User****************************////////////////////////////
 function VerficarHora(){
   var ahora=new Date();
  var  hora=ahora.getHours();
  let horario ="";
- $('body').addClass('layout-navbar-fixed')
   if(hora<6){
     horario = "madrugada";
     $('body').addClass('dark-mode')
@@ -112,6 +191,28 @@ function VerficarHora(){
   console.log(horario + hora)
 }
 
+function VerficarHoraOpcion(){
+  var ahora=new Date();
+ var  hora=ahora.getHours();
+ let horario ="";
+  if(hora<6){
+    horario = "madrugada";
+    $('body').addClass('dark-mode')
+   return 'dark';
+  }else if(hora>17 && hora<24)
+  {
+    horario = "noche";
+    $('body').addClass('dark-mode')
+   return 'dark';
+  }else{
+    horario = "dia";
+    $('body').removeClass('dark-mode')
+    return 'light';
+   
+  }
+  //console.log(horario + hora)
+}
+
 
 /////////////***************Estilo User ****************************////////////////////////////
 function EstiloUser(tema){
@@ -126,7 +227,7 @@ function EstiloUser(tema){
   var hoy = new Date();
   var edad = parseInt((hoy - fechaDeNacimiento) / (1000*60*60*24*365));
   if(edad < 18){
-  
+    $('body').removeClass('text-mayor').addClass('text-normal')
     console.log("es una wawa");
     //$(".nav-link active").text();
     if(tema == 'dark'){
@@ -143,7 +244,7 @@ function EstiloUser(tema){
     $('#logo_funeraria').removeClass().addClass('brand-link bg-teal')
   }else if( edad >59){
     console.log("ya ta pasao")
-    $('body').addClass('text-mayor')
+    $('body').removeClass('text-normal').addClass('text-mayor')
     if(tema == 'dark'){
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-maroon elevation-4 bg-maroon')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-maroon')
@@ -159,6 +260,7 @@ function EstiloUser(tema){
     $('#logo_funeraria').removeClass().addClass('brand-link bg-maroon')
   }else{
     console.log("años dorados")
+    $('body').removeClass('text-mayor').addClass('text-normal')
     if(tema == 'dark'){
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4 bg-primary')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-primary')
@@ -171,9 +273,69 @@ function EstiloUser(tema){
 
 }
 
+function estilosElegidos(tipo,tema){
 
+  if(tipo == 'niño'){
+    $('body').removeClass('text-mayor').addClass('text-normal')
+    console.log("es una wawa");
+    //$(".nav-link active").text();
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-teal elevation-4 bg-teal' )
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-teal')
+      $('.nav-link ').addClass('blanco' )
+      $('#sideUser').removeClass().addClass('d-block blanco')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-teal elevation-4 bg-teal')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-teal')
+      $('.nav-link ').removeClass('blanco')
+      $('#sideUser').removeClass().addClass('d-block')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-teal')
+  }else if( tipo == 'adulto'){
+    console.log("ya ta pasao")
+    //$('body').addClass('text-mayor')
+    $('body').removeClass('text-normal').addClass('text-mayor')
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-maroon elevation-4 bg-maroon')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-maroon')
+      $('.nav-link ').removeClass('negro')
+      $('#sideUser').removeClass().addClass('d-block text-normal')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-maroon elevation-4 bg-maroon')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-maroon')
+      $('.nav-link').addClass('negro' )
+      $('.nav-link.active').removeClass('negro').addClass('blanco' )
+      $('#sideUser').removeClass().addClass('d-block negro text-normal')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-maroon')
+  }else{
+    $('body').removeClass('text-mayor').addClass('text-normal')
+    console.log("años dorados")
+    if(tema == 'dark'){
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4 bg-primary')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-primary')
+    }else{
+      $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4 bg-primary')
+      $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-primary')
+    }
+    $('#logo_funeraria').removeClass().addClass('brand-link bg-primary')
+  }
+}
 /////////////***************Visita User ****************************////////////////////////////
 contador(); 
+
+function obtenerPath(){
+  var pathname = window.location.pathname;
+var paths =  pathname.split('/')
+var cant = paths.length -1
+
+cant = cant //- 5;
+var path = '';
+for (let index = 0; index < cant; index++) {
+  path = path + '../'  
+}
+return path;
+}
 
 function  contador(){
 var id = $('#sideUser').data("visita")
@@ -210,54 +372,90 @@ if(index >= 0) {
 
   /////////////////////////////>>Header Options////////////////////////////////////////////////
 
-  $container.append('<h6>Header Options</h6>')
+  $container.append('<h6>Estilos</h6>')
   var $header_fixed_checkbox = $('<input />', {
-    type: 'checkbox',
+    type: 'radio',
     value: 1,
-    checked: $('body').hasClass('layout-navbar-fixed'),
+    name: 'estilos',
+    checked: false, //$('body').hasClass('layout-navbar-fixed'),
     class: 'mr-1'
   }).on('click', function () {
+    let idOpciones = $('#sideUser').data('opcionid')
     if ($(this).is(':checked')) {
-      $('body').addClass('layout-navbar-fixed')
-    } else {
-      $('body').removeClass('layout-navbar-fixed')
+      let all = document.querySelectorAll('.dark-mode');
+      if(all.length == 0){
+       // console.log('niño blanco');
+        estilosElegidos('niño','blanco')
+      }else{
+        estilosElegidos('niño','dark')
+      //  console.log('niño negro');
+      }
+       let path = obtenerPath();
+      $.get(path+'api/estilo/niño/'+idOpciones, function(data) {
+        console.log(data);
+    //    return process(data);
+     });  
     }
   })
-  var $header_fixed_container = $('<div />', { class: 'mb-1' }).append($header_fixed_checkbox).append('<span>Fixed</span>')
+  var $header_fixed_container = $('<div />', { class: 'mb-1' }).append($header_fixed_checkbox).append('<span>Niño</span>')
   $container.append($header_fixed_container)
 
   var $dropdown_legacy_offset_checkbox = $('<input />', {
-    type: 'checkbox',
-    value: 1,
-    checked: $('.main-header').hasClass('dropdown-legacy'),
+    type: 'radio',
+    value: 2,
+    name: 'estilos',
+    checked: false, //$('.main-header').hasClass('dropdown-legacy'),
     class: 'mr-1'
   }).on('click', function () {
+    let idOpciones = $('#sideUser').data('opcionid')
     if ($(this).is(':checked')) {
-      $('.main-header').addClass('dropdown-legacy')
-    } else {
-      $('.main-header').removeClass('dropdown-legacy')
-    }
+      let all = document.querySelectorAll('.dark-mode');
+      if(all.length == 0){
+       // console.log('joven blanco');
+        estilosElegidos('joven','blanco')
+      }else{
+        estilosElegidos('joven','dark')
+       // console.log('joven negro');
+      }
+       let path = obtenerPath();
+      $.get(path+'api/estilo/joven/'+idOpciones, function(data) {
+        console.log(data);
+    //    return process(data);
+     }); 
+    } 
   })
-  var $dropdown_legacy_offset_container = $('<div />', { class: 'mb-1' }).append($dropdown_legacy_offset_checkbox).append('<span>Dropdown Legacy Offset</span>')
+  var $dropdown_legacy_offset_container = $('<div />', { class: 'mb-1' }).append($dropdown_legacy_offset_checkbox).append('<span>Joven</span>')
   $container.append($dropdown_legacy_offset_container)
 
   var $no_border_checkbox = $('<input />', {
-    type: 'checkbox',
-    value: 1,
-    checked: $('.main-header').hasClass('border-bottom-0'),
+    type: 'radio',
+    value: 3,
+    name: 'estilos',
+    checked: false, //$('.main-header').hasClass('border-bottom-0'),
     class: 'mr-1'
   }).on('click', function () {
+    let idOpciones = $('#sideUser').data('opcionid')
     if ($(this).is(':checked')) {
-      $('.main-header').addClass('border-bottom-0')
-    } else {
-      $('.main-header').removeClass('border-bottom-0')
+      let all = document.querySelectorAll('.dark-mode');
+      if(all.length == 0){
+      //  console.log('adulto blanco');
+        estilosElegidos('adulto','blanco')
+      }else{
+      //  console.log('adulto negro');
+        estilosElegidos('adulto','dark')
+      }
+       let path = obtenerPath();
+      $.get(path+'api/estilo/adulto/'+idOpciones, function(data) {
+        console.log(data);
+    //    return process(data);
+     }); 
     }
   })
-  var $no_border_container = $('<div />', { class: 'mb-4' }).append($no_border_checkbox).append('<span>No border</span>')
+  var $no_border_container = $('<div />', { class: 'mb-4' }).append($no_border_checkbox).append('<span>Adulto</span>')
   $container.append($no_border_container)
 
   /////////////////////////////>>Sidebar Options////////////////////////////////////////////////
-  
+  /*
   $container.append('<h6>Sidebar Options</h6>')
 
   var $sidebar_collapsed_checkbox = $('<input />', {
@@ -836,7 +1034,7 @@ if(index >= 0) {
     $brand_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_brand_color)
   }
 
-
+*/
 
 
 })(jQuery)

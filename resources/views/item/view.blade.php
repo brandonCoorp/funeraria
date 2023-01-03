@@ -43,18 +43,52 @@
                         <input type="number"  min="1"  class="form-control" disabled
                         value="{{old('cantidad', $item->cantidad)}}" name="cantidad" id="cantidad" required >
                       </div>
+                   
                       <div class="form-group">
-                        <label for="tipo">Tipo:</label><br>
-                        <p> 1.-Prestamo  2.-Items de venta </p>
-                        <input type="numeber" min="1" max="4" class="form-control" required disabled
-                        value="{{old('tipo', $item->tipo)}}" name="tipo" id="tipo" >
+                        <label>Selecione Tipo</label>
+                        <select class="form-control" name="tipo" id="tipo" disabled required>         
+                          <option value="1"
+                          @if($item->tipo == 1)
+                          selected
+                          @endif
+                          >Prestamo</option>
+                          <option value="2"
+                          @if($item->tipo == 2)
+                          selected
+                          @endif
+                          >Items de Venta</option>           
+                        </select>
                       </div>
+        
+
+
                       <div class="form-group">
-                        <label for="estado">Estado</label><br>
-                        <p> 1.-Activo  2.-Reservado  3.-Dañado  4.-Retirado</p> 
-                        <input type="number"  min="1" max="4" class="form-control" required disabled
-                        value="{{old('estado', $item->estado)}}" name="estado" id="estado" >
+                        <label>Selecione Estado</label>
+                        <select class="form-control" name="estado" id="estado" disabled required>         
+                          <option value="1"
+                          @if($item->estado == 1)
+                          selected
+                          @endif
+                          >Activo</option>
+                          <option value="2"
+                          @if($item->estado == 2)
+                          selected
+                          @endif
+                          >Reservado</option>
+                          <option value="3"
+                          @if($item->estado == 3)
+                          selected
+                          @endif
+                          >Dañado</option>
+                          <option value="4"
+                          @if($item->estado == 4)
+                          selected
+                          @endif
+                          >Retirado</option>
+                        </select>
                       </div>
+        
+
                       <div class="form-group">
                         <label for="costo_unit">Costo Unitario</label>
                         <input type="number"  min="1"  class="form-control" required disabled

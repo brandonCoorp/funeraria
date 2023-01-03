@@ -44,18 +44,22 @@
                         <input type="number"  min="1"  class="form-control"
                          value="{{old('cantidad')}}" name="cantidad" id="cantidad" required >
                       </div>
+                      
                       <div class="form-group">
-                        <label for="tipo">Tipo:</label><br>
-                        <p> 1.-Prestamo  2.-Items de venta </p>
-                        <input type="numeber" min="1" max="4" class="form-control" required
-                         value="{{old('tipo')}}" name="tipo" id="tipo" >
+                        <label>Selecione Tipo</label>
+                        <select class="form-control" name="tipo" id="tipo" required>         
+                          <option value="1"
+                          >Prestamo</option>
+                          <option value="2" selected
+                          >Item de Venta</option>               
+                        </select>
                       </div>
-                      <div class="form-group">
-                        <label for="estado">Estado</label><br>
-                        <p> 1.-Activo  2.-Reservado  3.-Dañado  4.-Retirado</p>
-                        <input type="number"  min="1" max="4" class="form-control" required
-                         value="{{old('estado')}}" name="estado" id="estado" >
-                      </div>
+        
+
+
+                        <input type="number"  min="1" max="4" class="form-control" 
+                         value="1" name="estado" id="estado" hidden="none" >
+                     
                       <div class="form-group">
                         <label for="costo_unit">Costo Unitario</label>
                         <input type="number"  min="1"  class="form-control" required
@@ -68,8 +72,7 @@
                         <select class="form-control" name="sucursal_id" id="sucursal_id" required>
                             <option selected value="0">Seleccionar</option>
                             @foreach ($sucursals as $sucursal)  
-                          <option value="{{$sucursal->id}}">{{$sucursal->nombre}}</option>
-                         
+                          <option value="{{$sucursal->id}}">{{$sucursal->nombre}}</option>            
                           @endforeach
                         </select>
                       </div>

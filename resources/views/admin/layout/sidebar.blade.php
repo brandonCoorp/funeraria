@@ -13,7 +13,9 @@
           <img src="{{ asset(auth('usuario')->user()->usuariofotofechas[0]->foto)}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{{route('usuarios.edit',auth('usuario')->user()->id)}}" class="d-block" data-visita="{{session('prueba')}}";
+          <a href="{{route('usuarios.edit',auth('usuario')->user()->id)}}" class="d-block"
+            data-tema="{{auth('usuario')->user()->opcions[0]->tema}}" data-estilo="{{auth('usuario')->user()->opcions[0]->estilo}}"
+            data-opcionid="{{auth('usuario')->user()->opcions[0]->id}}"  data-visita="{{session('prueba')}}";
           data-fecha="{{ auth('usuario')->user()->usuariofotofechas[0]->fecha_nac->format('Y-m-d') }}" id="sideUser">
             {{ auth('usuario')->user()->mail; }}</a>
         </div>
@@ -137,7 +139,7 @@
     <a href="#" class="nav-link {{ Request::is('compras*') ? 'active' : '' }} ">
       <i class="fas fa-sync"></i>
       <p>
-        Compras
+        Ventas
         <i class="right fas fa-angle-left"></i>
       </p>
     </a>
@@ -146,14 +148,14 @@
       <li class="nav-item">
         <a href="{{route('compras.create')}}" class="nav-link {{ Request::is('compras/create') ? 'active' : '' }}">
           <i class="far fa-circle nav-icon"></i>
-          <p>Nueva Compra</p>
+          <p>Nueva Venta</p>
         </a>
       </li>
       @endcan
       <li class="nav-item">
         <a href="{{route('compras.index')}}" class="nav-link {{ Request::is('compras') ? 'active' : '' }}">
           <i class="far fa-circle nav-icon"></i>
-          <p>Ver Compras</p>
+          <p>Ver Ventas</p>
         </a>
       </li>
     </ul>

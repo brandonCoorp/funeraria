@@ -71,11 +71,19 @@ Route::resource('contratos', ContratoController::class)->middleware('auth:usuari
 Route::resource('clientes', ClienteController::class)->middleware('auth:usuario');
 
 Route::get('contratos/generear/{id}', [ContratoController::class, 'VerContrato'])->name('vercontrato')->middleware('auth:usuario');
+Route::get('contratos/descargar/{id}', [ContratoController::class, 'DowloadContrato'])->name('descargarcontrato')->middleware('auth:usuario');
+
+
 //Shearchs
 
 
 Route::get('search', [AutoCompletarController::class, 'index'])->name('search');
 Route::get('autocomplete', [AutoCompletarController::class, 'search'])->name('autocomplete');
+Route::post('buscar', [AutoCompletarController::class, 'buscar'])->name('buscar')->middleware('auth:usuario');
+
+
+
+
 
 Route::post('reportes', [ReporteEstadisticaController::class, 'obtenerReporte'])->name('reportes')->middleware('auth:usuario');
 

@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Compra-Listar')
+@section('title', 'Venta-Listar')
 @section('page-level-css')
     <style type="text/css">
     </style>
@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">COMPRAS</h1>
+                    <h1 class="m-0">Ventas</h1>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
@@ -31,7 +31,7 @@
 
                             <div class="card-tools">
                                 @can('verificarPrivilegio', 'INSCPA') 
-                                <a href="{{ route('compras.create') }}" class="btn btn-primary float-right">Nueva Compra</a>
+                                <a href="{{ route('compras.create') }}" class="btn btn-primary float-right">Nueva Venta</a>
                                  @endcan 
                                
 

@@ -18,6 +18,10 @@
         <div class="card-header">
           <h3 class="card-title">Contrato</h3>
         </div>
+        <div class="card-tools"><br>
+            <a href="{{ route('descargarcontrato', $contrato->id) }}" class="btn btn-success float-right">Descargar Contrato</a>
+        </div>
+        <hr>
         <div class="card-body">
         <div><h2 style="text-align: center;">CONTRATO DE PRESTACION DE SERVICIO FUNERARIO EN EMERGENCIAS</h2></div>
         <p>Conste por el presente documento, un contrato de prestación de servicio funerario en emergencia, en adelante el contrato, sujeto a las siguientes claúsulas</p>

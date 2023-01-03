@@ -26,7 +26,7 @@ use App\Traits\UsuarioTrait;
  *
  * @package App\Models
  */
-class Usuario extends Authenticatable
+class Usuario2 extends Authenticatable
 {
 	use UsuarioTrait;
 	protected $table = 'usuarios';
@@ -67,9 +67,6 @@ class Usuario extends Authenticatable
 	{
 		return $this->hasMany(Visita::class);
 	}
-
-	public function opcions()
-	{
-		return $this->hasMany(Opcion::class);
-	}
+	
+	
 }

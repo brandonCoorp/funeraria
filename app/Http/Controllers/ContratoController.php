@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contrato;
+use Barryvdh\DomPDF\Facade\Pdf;
 class ContratoController extends Controller
 {
     /**
@@ -121,4 +122,18 @@ class ContratoController extends Controller
            
          return view('contrato.ver', compact('contrato','servicios'));
     }
+    public function DowloadContrato($id)
+    {
+        //
+       // dd($id);
+       $this->authorize('verificarPrivilegio','VSRCTT');
+        $contrato=Contrato::find($id);
+        $servicios = $contrato->compra->paquete->servicios;
+ $nombre ='Contrato'.$contrato->cliente->persona->nombre.$contrato->cliente->persona->apellido_paterno.$contrato->cliente->persona->apellido_materno.'.pdf';
+        view()->share('contrato.contratopdf',['contrato'=>$contrato,'servicios'=>$servicios]);
+
+        $pdf = Pdf::loadView('contrato.contratopdf',['contrato'=>$contrato,'servicios'=>$servicios] )->setOptions(['defaultFont' => 'sans-serif']);;
+        return $pdf->download($nombre);
+    }
+
 }

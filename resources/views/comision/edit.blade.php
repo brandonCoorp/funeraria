@@ -34,13 +34,35 @@
                 <input type="text"  value="{{old('monto', $comision->monto.' Bs.')}}" class="form-control " 
                   name="monto" id="monto" disabled required>
               </div>
+            
               <div class="form-group">
-                <label for="estado">Estado </label>
-                <p>1.-Pendiente 2.-Pagado 3.-Observado 4.-Rechazado</p>
-                <input type="number" min="1" max="4" value="{{old('estado', $comision->estado)}}" class="form-control " 
-                  name="estado" id="estado"  required>
+                <label>Selecione Estado</label>
+                <select class="form-control" name="estado" id="estado" required>         
+                  <option value="1"
+                  @if($comision->estado == 1)
+                  selected
+                  @endif
+                  >Pendiente</option>
+                  <option value="2"
+                  @if($comision->estado == 2)
+                  selected
+                  @endif
+                  >Pagado</option>
+                  <option value="3"
+                  @if($comision->estado == 3)
+                  selected
+                  @endif
+                  >Observado</option>
+                  <option value="4"
+                  @if($comision->estado == 4)
+                  selected
+                  @endif
+                  >Rechazado</option>
+           
+                </select>
               </div>
-         
+
+
               <div class="form-group">
                 <label for="nombre">Nombre Cliente </label>
                 <input type="text"  value="{{old('nombre', 

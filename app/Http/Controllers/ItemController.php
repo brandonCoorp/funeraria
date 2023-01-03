@@ -50,7 +50,6 @@ class ItemController extends Controller
             'cod_item'=>'required|min:5|max:50',
             'cantidad'=>'required|numeric',
             'tipo'=>'required|numeric|min:1|max:4',
-            'estado'=>'required|numeric|min:1|max:4',
             'costo_unit'=>'required|numeric',
             'sucursal_id'=>'required|numeric|min:1'
             ]);
@@ -107,10 +106,8 @@ class ItemController extends Controller
             'nombre'=>'required|string|max:50',
             'descripcion'=>'required|string|max:255',
             'cod_item'=>'required|max:50',
-            'cantidad'=>'required|numeric',
             'tipo'=>'required|numeric|min:1|max:4',
             'estado'=>'required|numeric|min:1|max:4',
-            'costo_unit'=>'required|numeric'
             ]);
             $item = Item::find($id);
             if($item){

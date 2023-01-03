@@ -15,14 +15,15 @@
           <i class="fas fa-search"></i>
         </a>
         <div class="navbar-search-block">
-          <form class="form-inline">
+            <form action="{{route('buscar')}}" method="POST" class="form-inline" >
+              @csrf
             <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control form-control-navbar" type="search" style="color:black;" placeholder="Search" name="buscar" id="buscar_input_header" aria-label="Search">
               <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
+                <button class="btn btn-navbar" id="buscar_header" style="color:black;" type="submit">
                   <i class="fas fa-search"></i>
                 </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                <button class="btn btn-navbar" type="button"  style="color:black;" data-widget="navbar-search">
                   <i class="fas fa-times"></i>
                 </button>
               </div>

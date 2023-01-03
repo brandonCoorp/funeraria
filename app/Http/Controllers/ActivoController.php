@@ -18,7 +18,7 @@ class ActivoController extends Controller
         //
          //('tieneacceso','rol.index');
          $this->authorize('verificarPrivilegio','MOVACT');
-         $items =Item::orderBy('id','Asc')->paginate(30);
+         $items =Item::orderBy('id','Asc')->where('tipo',2)->paginate(30);
          $sucursals =Sucursal::get();
          return view('activos.index',compact('items','sucursals'));
     }
@@ -33,9 +33,9 @@ class ActivoController extends Controller
          $this->authorize('verificarPrivilegio','MOVACT');
          if( $request->input('sucursal_id') == 0){
             $selec = 0;
-            $items =Item::orderBy('id','Asc')->paginate(30);
+            $items =Item::orderBy('id','Asc')->where('tipo',2)->paginate(30);
          }else{
-            $items =Item::where( 'sucursal_id',$request->input('sucursal_id'))->orderBy('id','Asc')->paginate(30);
+            $items =Item::where( 'sucursal_id',$request->input('sucursal_id'))->where('tipo',2)->orderBy('id','Asc')->paginate(30);
             $suc = $request->input('sucursal_id');
          }
        
