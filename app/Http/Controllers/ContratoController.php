@@ -14,6 +14,7 @@ class ContratoController extends Controller
     public function index()
     {
         //
+        $this->authorize('verificarPrivilegio','VERCTT');
         $contratos =Contrato::orderBy('id','Asc')->paginate(5);
         return view('contrato.index',compact('contratos'));
     }
@@ -26,6 +27,7 @@ class ContratoController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSCTT');
     }
 
     /**
@@ -37,6 +39,7 @@ class ContratoController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('verificarPrivilegio','INSCTT');
     }
 
     /**
@@ -48,6 +51,7 @@ class ContratoController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('verificarPrivilegio','VERCTT');
         $contrato=Contrato::find($id);
         
        
@@ -63,6 +67,7 @@ class ContratoController extends Controller
     public function edit($id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCTT');
         $contrato=Contrato::find($id);
         $compra= $contrato->compra;
        
@@ -79,6 +84,7 @@ class ContratoController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCTT');
         $request->validate([
             'estado'=>'required|numeric|min:1|max:4',
             ]);
@@ -100,11 +106,13 @@ class ContratoController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('verificarPrivilegio','DELCTT');
     }
 
     public function VerContrato($id)
     {
         //
+        $this->authorize('verificarPrivilegio','VSRCTT');
         $contrato=Contrato::find($id);
         $servicios = $contrato->compra->paquete->servicios;
         foreach($servicios as $servicio){

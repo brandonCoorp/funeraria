@@ -17,6 +17,10 @@ use App\Http\Controllers\ClienteController;
 
 use App\Http\Controllers\AutoCompletarController;
 use App\Http\Controllers\ReporteEstadisticaController;
+use App\Http\Controllers\ActivoController;
+use App\Models\Usuario;
+
+use Illuminate\Support\Facades\Gate;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,11 +35,18 @@ use App\Http\Controllers\ReporteEstadisticaController;
 /*Route::get('/', function () {
     return view('login.login');
 });*/
+/*Route::get('/pruebas', function () {
+    //return "priabdno";
+    $user  = Usuario::find(auth('usuario')->user()->id);
 
+    $this->authorize('update-post');
+    return "hila";
+    return $user->verificarPermiso('INSROL');
+});*/
 
 Route::get('admin',[HomeController::class, 'home'])->name('home')->middleware('auth:usuario');
 
-Route::view('admin/user-add','Reportes.Reportes')->middleware('auth:usuario');;
+//Route::view('admin/user-add','Reportes.Reportes')->middleware('auth:usuario');;
 
 //Route::get('dashboard', [LoginController::class, 'dashboard']); 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest:usuario');
@@ -66,7 +77,18 @@ Route::get('contratos/generear/{id}', [ContratoController::class, 'VerContrato']
 Route::get('search', [AutoCompletarController::class, 'index'])->name('search');
 Route::get('autocomplete', [AutoCompletarController::class, 'search'])->name('autocomplete');
 
-Route::post('reportes', [ReporteEstadisticaController::class, 'obtenerReporte'])->name('reportes'); 
-Route::get('reportes', [ReporteEstadisticaController::class, 'reportes'])->name('reportes.index');
+Route::post('reportes', [ReporteEstadisticaController::class, 'obtenerReporte'])->name('reportes')->middleware('auth:usuario');
 
+Route::get('reportes', [ReporteEstadisticaController::class, 'reportes'])->name('reportes.index')->middleware('auth:usuario');
+
+
+//Activos
+Route::get('activos', [ActivoController::class, 'index'])->name('activos.index')->middleware('auth:usuario');
+Route::post('activos', [ActivoController::class, 'activoSucursal'])->name('activo.suc')->middleware('auth:usuario');
+
+Route::get('activos/transferencia/{id}', [ActivoController::class, 'transferir'])->name('activos.transferir')->middleware('auth:usuario');
+Route::get('activos/ajuste/{id}', [ActivoController::class, 'ajustes'])->name('activos.ajuste')->middleware('auth:usuario');
+Route::post('activos/transferencia/{id}', [ActivoController::class, 'guardarTransferencia'])->name('activos.savetransferir')->middleware('auth:usuario');
+
+Route::post('activos/ajuste/{id}', [ActivoController::class, 'guardarAjuste'])->name('activos.saveajuste')->middleware('auth:usuario');
 

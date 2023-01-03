@@ -16,13 +16,11 @@
     @include('Custom.mensaje')
     <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Nuevo Servicio</h3>
+          <h3 class="card-title">Ver Servicio</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form action="{{route('servicios.update', $servicio->id)}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+       
           <div class="card-body">
             <div class="form-group">
                 <label for="nombre">Nombre </label>
@@ -98,11 +96,14 @@
                value="{{old('costo', $servicio->costo)}}" name="costo" id="costo" hidden="none" >
             </div>  
           <div class="card-footer">
+            @can('verificarPrivilegio', 'MODSRV') 
             <a href="{{route('servicios.edit',$servicio->id)}}" class="btn btn-success">Editar</a>
+             @endcan 
+           
                     
             <a href="{{route('servicios.index')}}" class="btn btn-danger">volver</a>
           </div>
-        </form>
+      
       </div>
         
        

@@ -18,9 +18,10 @@
           <h3 class="card-title">Ver Compra</h3>
         </div><hr>
         <div class="card-tools">
-
-          <a href="{{ route('items.create') }}" class="btn btn-success float-right">Ver Contrato de Compra</a>
-
+          @can('verificarPrivilegio', 'VSRCTT') 
+          <a href="{{route('vercontrato',$compra->contratos[0]->id)}}" class="btn btn-success float-right">Ver Contrato de Compra</a>
+           @endcan 
+                                      
 
       </div>
         <!-- /.card-header -->

@@ -62,15 +62,15 @@
                                             </td>
                                             <td>{{ $comision->compra_id }}</td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERCOM') 
                                                 <a class="btn btn-info" href="{{route('comisions.show',$comision->id)}}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                               </td> 
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.edit') --}}
+                                                 @can('verificarPrivilegio', 'MODCOM') 
                                                 <a class="btn btn-success"
                                                     href="{{ route('comisions.edit', $comision->id) }}">Editar</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                            
 

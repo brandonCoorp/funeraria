@@ -14,14 +14,15 @@ use App\Models\Sucursal;
 use App\Models\Usuario;
 use App\Models\Cliente;
 use App\Models\Role;
-
+use App\Models\Transaccione;
 use Carbon\Carbon;
 use DB;
 class ReporteEstadisticaController extends Controller
 {
     //
     public function ObtenerCompraXMes(){
-        $comprasXmes = Compra::select(DB::raw("SUM(costo) as count, TO_CHAR(fecha,'Month') as mes"))->groupBy('mes')->get();
+        $año = Carbon::now()->Format('Y');
+        $comprasXmes = Compra::whereYear('fecha', $año)->select(DB::raw("SUM(costo) as count, TO_CHAR(fecha,'Month') as mes"))->groupBy('mes')->get();
       //  dd($comprasXmes);
         return  $comprasXmes;
     }
@@ -34,6 +35,7 @@ class ReporteEstadisticaController extends Controller
         return  $paquetes;
     }
     public function reportes(){
+        $this->authorize('verificarPrivilegio','All'); 
         $datos =Compra::orderBy('id','Asc')->paginate(10);
         $nombreDatos = ["Id","Cliente","Monto", "Fecha","Fecha de Entrega", "Pago", "Paquete" ];
         return view('Reportes.compra',compact('datos','nombreDatos'));
@@ -42,7 +44,7 @@ class ReporteEstadisticaController extends Controller
     public function obtenerReporte(Request $request){
 
     //  dd($request->input('selectReporte'));
-       
+    $this->authorize('verificarPrivilegio','All'); 
 
         switch ($request->input('selectReporte')) {
             case "usuarios":
@@ -131,9 +133,14 @@ class ReporteEstadisticaController extends Controller
                 return view('Reportes.contrato',compact('datos','nombreDatos'));
                 break;
             case "activos":
-                $datos =Compra::orderBy('id','Asc')->paginate(10);
-                $nombreDatos = ["Id","Cliente","Monto", "Fecha","Fecha de Entrega", "Pago", "Paquete" ];
-                return view('Reportes.compra',compact('datos','nombreDatos'));
+                $datos =Transaccione::orderBy('id','Asc')->paginate(10);
+                $nombreDatos = ['Id','Tipo de Movimiento',
+                'Cantidad',
+                'Fecha Realizada',
+                'Nombre del Item',
+                'Usuario',
+                'Sucursal' ];
+                return view('Reportes.activos',compact('datos','nombreDatos'));
                 break;
             case "pagos":
                 $datos =Pago::orderBy('id','Asc')->paginate(10);

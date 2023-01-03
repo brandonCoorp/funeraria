@@ -26,7 +26,7 @@ class LoginController extends Controller
     public function customLogin(Request $request)
     {
         $request->validate([
-            'mail' => 'required',
+            'mail' => 'required|email',
             'password' => 'required',
         ]);
    
@@ -50,12 +50,12 @@ class LoginController extends Controller
     {  
        
         $request->validate([
-            'nombre' => 'required',
-            'apellido_materno' => 'required',
-            'apellido_materno' => 'required',
+            'nombre' => 'required|string|max:50',
+            'apellido_materno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
             'direccion' => 'required',
             'role_id' => 'required',           
-            'mail'=>'required|unique:usuarios,mail',     
+            'mail'=>'required|email|unique:usuarios,mail',     
             'password' => 'required|min:6',
 
         ]);

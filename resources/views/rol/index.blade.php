@@ -29,8 +29,10 @@
 
 
                 <div class="card-tools">
-
-                    <a href="{{ route('roles.create') }}" class="btn btn-primary float-right">Crear</a>
+                  @can('verificarPrivilegio', 'INSROL') 
+                  <a href="{{ route('roles.create') }}" class="btn btn-primary float-right">Crear</a>
+                   @endcan 
+                    
 
 
                 </div>
@@ -55,24 +57,24 @@
        <td>{{$rol->nombre}}</td>
        <td>{{$rol->descripcion}}</td>
       <td>
-        {{-- @can('tieneacceso', 'rol.show') --}}
+         @can('verificarPrivilegio', 'VERROL') 
         <a class="btn btn-info" href="{{route('roles.show',$rol->id)}}">Ver</a>
-        {{-- @endcan --}}
+         @endcan 
       </td>  
       <td>
-        {{-- @can('tieneacceso', 'rol.edit') --}}
+         @can('verificarPrivilegio', 'MODROL') 
         <a class="btn btn-success" href="{{route('roles.edit',$rol->id)}}">Editar</a>
-        {{-- @endcan --}}
+         @endcan 
       </td>  
       <td>
-        {{-- @can('tieneacceso', 'rol.destroy') --}}
+         @can('verificarPrivilegio', 'DELROL') 
       <form action="{{route('roles.destroy',$rol->id)}}" method="post">
       @csrf
       @method('DELETE')
         <button class="btn btn-danger">Eliminar</button>
 
       </form>
-      {{-- @endcan --}}
+       @endcan 
       </td>  
        
       </tr>

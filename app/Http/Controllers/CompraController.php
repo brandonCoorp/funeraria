@@ -8,6 +8,8 @@ use App\Models\Pago;
 use App\Models\Paquete;
 use App\Models\Comisione;
 use App\Models\Contrato;
+use App\Models\Cliente;
+use App\Models\Persona;
 use Carbon\Carbon;
 class CompraController extends Controller
 {
@@ -19,6 +21,7 @@ class CompraController extends Controller
     public function index()
     {
         //
+        $this->authorize('verificarPrivilegio','VERCPA');
         $compras =Compra::orderBy('id','Asc')->paginate(10);
        
         return view('compra.index',compact('compras'));
@@ -32,6 +35,7 @@ class CompraController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSCPA');
         $pagos=Pago::get();
         $paquetes=Paquete::get();
         
@@ -47,20 +51,48 @@ class CompraController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('verificarPrivilegio','INSCPA');
         $fecha = Carbon::now()->Format('Y-m-d');
         //dd($fecha);
         $fecha_actual = $fecha;
         $fecha = 'after_or_equal:'.$fecha;
         $request->validate([
-            'nombre' => 'required',
-            'apellido_materno' => 'required',
-            'apellido_materno' => 'required',
-            'direccion' => 'required',
+            'nombre' => 'required|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'direccion' => 'required|max:255',
             'fecha' => ['required', 'date',$fecha],           
             'paquete' => 'required|numeric|min:1',
             'pago' => 'required|numeric|min:1',
-
+            'telefono'=>'required|numeric|min:11111111|max:11111111111',
         ]);
+
+        $cliente =null;
+        //dd($request);
+        if($request->input('cliente_id')){
+           
+            $clientefind = Cliente::find($request->input('cliente_id'));
+            if($clientefind->persona->nombre == $request->input('nombre') && $clientefind->persona->apellido_paterno == $request->input('apellido_paterno') && $clientefind->persona->apellido_materno == $request->input('apellido_materno') )
+            {
+                $cliente = $clientefind;
+            }else{
+                $persona = Persona::create($request->all());
+                $cliente  =Cliente::create([
+                    'persona_id' => $persona->id,
+                    'telefono' => $request->input('telefono'),
+                    'tipo' =>  1,                  
+                  ]);
+            }
+        }else{
+            $persona = Persona::create($request->all());
+            $cliente  =Cliente::create([
+                'persona_id' => $persona->id,
+                'telefono' => $request->input('telefono'),
+                'tipo' =>  1,                  
+              ]);
+        }
+     //   $cliente = Cliente::
+
         $paquete = Paquete::find($request->input('paquete'));
 //dd(auth('usuario')->user()->mail);
 
@@ -70,7 +102,7 @@ class CompraController extends Controller
             'fecha_entrega'=>$request->input('fecha'),
             'pago_id'=>$request->input('pago'),
             'paquete_id'=>$paquete->id,
-            'cliente_id'=>$request->input('cliente_id')
+            'cliente_id'=>$cliente->id
           ]);
           
           $comision =  Comisione::create([
@@ -84,7 +116,7 @@ class CompraController extends Controller
             'motivo'=>$paquete->nombre ,
             'estado'=>1,
             'monto'=>$paquete->costo,
-            'cliente_id'=>$request->input('cliente_id'),
+            'cliente_id'=>$cliente->id,
             'compra_id'=>$compra->id
             ]);
         
@@ -103,6 +135,7 @@ class CompraController extends Controller
     {
         //
     //  $this->authorize('tieneacceso','rol.edit');
+    $this->authorize('verificarPrivilegio','VERCPA');
       $compra=Compra::findOrFail($id);
       $servicios = $compra->paquete->servicios;
        // dd($itemservicio->id);
@@ -120,6 +153,7 @@ class CompraController extends Controller
     public function edit($id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCPA');
     }
 
     /**
@@ -132,6 +166,7 @@ class CompraController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCPA');
     }
 
     /**
@@ -143,5 +178,6 @@ class CompraController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('verificarPrivilegio','DELCPA');
     }
 }

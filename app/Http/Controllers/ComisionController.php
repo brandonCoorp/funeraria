@@ -49,6 +49,7 @@ class ComisionController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('verificarPrivilegio','VERCOM');
         $comision=Comisione::find($id);
         $compra= $comision->compra;
        
@@ -64,6 +65,7 @@ class ComisionController extends Controller
     public function edit($id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCOM');
         $comision=Comisione::find($id);
         $compra= $comision->compra;
        
@@ -80,6 +82,7 @@ class ComisionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->authorize('verificarPrivilegio','MODCOM');
         $request->validate([
             'estado'=>'required|numeric|min:1|max:4',
             ]);
@@ -101,5 +104,6 @@ class ComisionController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('verificarPrivilegio','DELCOM');
     }
 }

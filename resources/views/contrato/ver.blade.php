@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Contrato-Editar')
+@section('title','Contrato-Generar')
 @section('page-level-css')
 
 <style type="text/css">

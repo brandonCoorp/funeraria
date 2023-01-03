@@ -30,8 +30,10 @@
 
 
                             <div class="card-tools">
-
+                                @can('verificarPrivilegio', 'INSSRV') 
                                 <a href="{{ route('servicios.create') }}" class="btn btn-primary float-right">Crear</a>
+                                 @endcan
+                                
 
 
                             </div>
@@ -56,25 +58,25 @@
                                             <td>{{ $servicio->nombre }}</td>
                                             <td>{{ $servicio->descripcion }}</td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERSRV') 
                                                 <a class="btn btn-info" href="{{ route('servicios.show', $servicio->id) }}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.edit') --}}
+                                                 @can('verificarPrivilegio', 'MODSRV') 
                                                 <a class="btn btn-success"
                                                     href="{{ route('servicios.edit', $servicio->id) }}">Editar</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.destroy') --}}
+                                                 @can('verificarPrivilegio', 'DELSRV') 
                                                 <form action="{{ route('servicios.destroy', $servicio->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger">Eliminar</button>
 
                                                 </form>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
 
                                         </tr>

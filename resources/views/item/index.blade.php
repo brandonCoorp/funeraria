@@ -30,9 +30,11 @@
 
 
                             <div class="card-tools">
-
+                                @can('verificarPrivilegio', 'INSITM') 
                                 <a href="{{ route('items.create') }}" class="btn btn-primary float-right">Crear</a>
 
+                                 @endcan 
+                             
 
                             </div>
                         </div>
@@ -56,25 +58,26 @@
                                             <td>{{ $item->nombre }}</td>
                                             <td>{{ $item->descripcion }}</td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERITM') 
                                                 <a class="btn btn-info" href="{{ route('items.show', $item->id) }}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
+                                            
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.edit') --}}
+                                                 @can('verificarPrivilegio', 'MODITM') 
                                                 <a class="btn btn-success"
                                                     href="{{ route('items.edit', $item->id) }}">Editar</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.destroy') --}}
+                                                 @can('verificarPrivilegio', 'DELITM') 
                                                 <form action="{{ route('items.destroy', $item->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger">Eliminar</button>
 
                                                 </form>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
 
                                         </tr>

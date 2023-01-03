@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Pagos-Listar')
+@section('title','Pagos-Ver')
 @section('page-level-css')
 <style type="text/css">
 </style>  
@@ -28,9 +28,7 @@
                 <div class="card-body">
                   @include('Custom.mensaje')
 
-                    <form action="{{route('pagos.update', $pago->id)}}" method="POST">
-                      @csrf
-                      @method('PUT')
+                   
                      <div class="containner">
                        <h3>Requisito de Datos</h3>
                        <div class="form-group">
@@ -46,14 +44,15 @@
                        rows="3">{{old('descripcion',$pago->descripcion)}}</textarea>
                       </div>       
                       <hr>
-                    <a href="{{route('pagos.edit',$pago->id)}}" class="btn btn-success">Editar</a>
                     
+                    @can('verificarPrivilegio', 'MODPAG') 
+                    <a href="{{route('pagos.edit',$pago->id)}}" class="btn btn-success">Editar</a>
+                    @endcan 
                     <a href="{{route('pagos.index')}}" class="btn btn-danger">volver</a>
                     
                     </div>
 
 
-           </form>
            
            
            

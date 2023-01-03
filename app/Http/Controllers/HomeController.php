@@ -17,7 +17,9 @@ class HomeController extends Controller
        // return view('admin.dashboard', compact('item','sucursals'));
        $año = Carbon::now()->Format('Y');
        $mes = Carbon::now()->Format('m');
-      $visitas = Visita::sum('contador');
+      $visitas = Visita::whereYear('fecha', $año)
+      ->whereMonth('fecha', $mes)
+      ->sum('contador');
       $clientes = Cliente::count();
 
       

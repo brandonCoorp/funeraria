@@ -28,9 +28,6 @@
                 <div class="card-body">
                   @include('Custom.mensaje')
 
-                    <form action="{{route('sucursals.update', $sucursal->id)}}" method="POST">
-                      @csrf
-                      @method('PUT')
                      <div class="containner">
                        <h3>Requisito de Datos</h3>
                        <div class="form-group">
@@ -68,14 +65,15 @@
                         <!-- /.input group -->
                       </div>      
                       <hr>
-                    <a href="{{route('sucursals.edit',$sucursal->id)}}" class="btn btn-success">Editar</a>
                     
+                    @can('verificarPrivilegio', 'MODSUC') 
+                    <a href="{{route('sucursals.edit',$sucursal->id)}}" class="btn btn-success">Editar</a>
+                     @endcan 
                     <a href="{{route('sucursals.index')}}" class="btn btn-danger">volver</a>
                     
                     </div>
 
 
-           </form>
            
            
            

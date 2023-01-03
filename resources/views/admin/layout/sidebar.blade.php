@@ -13,7 +13,7 @@
           <img src="{{ asset(auth('usuario')->user()->usuariofotofechas[0]->foto)}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block" data-visita="{{session('prueba')}}";
+          <a href="{{route('usuarios.edit',auth('usuario')->user()->id)}}" class="d-block" data-visita="{{session('prueba')}}";
           data-fecha="{{ auth('usuario')->user()->usuariofotofechas[0]->fecha_nac->format('Y-m-d') }}" id="sideUser">
             {{ auth('usuario')->user()->mail; }}</a>
         </div>
@@ -33,6 +33,7 @@
               </p>
             </a>
           </li>
+          @can('verificarPrivilegio', 'VERUSR')
           <li class="nav-item">
             <a href="{{route('usuarios.index')}}" class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }} ">
               <i class="fas fa-users"></i>
@@ -40,7 +41,10 @@
                 Usuarios
               </p>
             </a>
-          </li>
+          </li> 
+          @endcan
+          
+          @can('verificarPrivilegio', 'VERCLI')
           <li class="nav-item">
             <a href="{{route('clientes.index')}}" class="nav-link {{ Request::is('clientes*') ? 'active' : '' }}">
               <i class="fas fa-user-alt"></i>
@@ -48,15 +52,21 @@
                 Clientes
               </p>
             </a>          
+        </li> 
+          @endcan
+        
+        @can('verificarPrivilegio', 'VERPAG')
+        <li class="nav-item">
+          <a href="{{route('pagos.index')}}" class="nav-link {{ Request::is('pagos*') ? 'active' : '' }}">
+            <i class="fas fa-money-check-alt"></i>
+            <p>
+              Pagos
+            </p>
+          </a>
         </li>
-          <li class="nav-item">
-            <a href="{{route('pagos.index')}}" class="nav-link {{ Request::is('pagos*') ? 'active' : '' }}">
-              <i class="fas fa-money-check-alt"></i>
-              <p>
-                Pagos
-              </p>
-            </a>
-          </li>
+        @endcan  
+       
+          @can('verificarPrivilegio', 'VERROL')
           <li class="nav-item">
             <a href="{{route('roles.index')}}" class="nav-link {{ Request::is('roles*') ? 'active' : '' }}">
               <i class="fas fa-user-tie"></i>
@@ -65,6 +75,9 @@
               </p>
             </a>          
         </li>
+          @endcan
+       
+        @can('verificarPrivilegio', 'VERSUC')
         <li class="nav-item">
           <a href="{{route('sucursals.index')}}" class="nav-link {{ Request::is('sucursales*') ? 'active' : '' }}">
             <i class="fas fa-building"></i>
@@ -73,15 +86,31 @@
             </p>
           </a>          
       </li>
-        <li class="nav-item">
-          <a href="{{route('items.index')}}" class="nav-link {{ Request::is('items*') ? 'active' : '' }}">
-          
-            <i class="fas fa-medkit"></i>
-            <p>
-              Items
-            </p>
-          </a>          
-      </li>
+        @endcan
+      
+      @can('verificarPrivilegio', 'VERITM')
+      <li class="nav-item">
+        <a href="{{route('items.index')}}" class="nav-link {{ Request::is('items*') ? 'active' : '' }}">
+        
+          <i class="fas fa-medkit"></i>
+          <p>
+            Items
+          </p>
+        </a>          
+    </li>
+      @endcan  
+      @can('verificarPrivilegio', 'MOVACT')
+      <li class="nav-item">
+        <a href="{{route('activos.index')}}" class="nav-link {{ Request::is('activos*') ? 'active' : '' }}">
+        
+          <i class="fas fa-truck-moving"></i>
+          <p>
+            Activos
+          </p>
+        </a>          
+    </li>
+      @endcan  
+      @can('verificarPrivilegio', 'VERSRV')
       <li class="nav-item">
         <a href="{{route('servicios.index')}}" class="nav-link {{ Request::is('servicios*') ? 'active' : '' }}">
           <i class="fas fa-praying-hands"></i>
@@ -90,6 +119,9 @@
           </p>
         </a>          
     </li>
+      @endcan
+      
+    @can('verificarPrivilegio', 'VERPAQ')
     <li class="nav-item">
       <a href="{{route('paquetes.index')}}" class="nav-link {{ Request::is('paquetes*') ? 'active' : '' }}">
         <i class="fas fa-box-open"></i>
@@ -98,6 +130,9 @@
         </p>
       </a>          
   </li>
+    @endcan
+   
+  @can('verificarPrivilegio', 'VERCPA')
   <li class="nav-item">
     <a href="#" class="nav-link {{ Request::is('compras*') ? 'active' : '' }} ">
       <i class="fas fa-sync"></i>
@@ -107,12 +142,14 @@
       </p>
     </a>
     <ul class="nav nav-treeview">
+      @can('verificarPrivilegio', 'INSCPA')
       <li class="nav-item">
         <a href="{{route('compras.create')}}" class="nav-link {{ Request::is('compras/create') ? 'active' : '' }}">
           <i class="far fa-circle nav-icon"></i>
           <p>Nueva Compra</p>
         </a>
       </li>
+      @endcan
       <li class="nav-item">
         <a href="{{route('compras.index')}}" class="nav-link {{ Request::is('compras') ? 'active' : '' }}">
           <i class="far fa-circle nav-icon"></i>
@@ -121,6 +158,9 @@
       </li>
     </ul>
   </li>
+  @endcan
+
+  @can('verificarPrivilegio', 'VERCOM')
   <li class="nav-item">
     <a href="{{route('comisions.index')}}" class="nav-link {{ Request::is('comisions*') ? 'active' : '' }}">
       <i class="fas fa-percent"></i>
@@ -129,6 +169,9 @@
       </p>
     </a>          
 </li>
+  @endcan
+ 
+@can('verificarPrivilegio', 'VERCTT')
 <li class="nav-item">
   <a href="{{route('contratos.index')}}" class="nav-link {{ Request::is('contratos*') ? 'active' : '' }}">
     <i class="fas fa-file-signature"></i>
@@ -137,6 +180,9 @@
     </p>
   </a>          
 </li>
+@endcan
+
+@can('verificarPrivilegio', 'All')
 <li class="nav-item">
   <a href="{{route('reportes.index')}}" class="nav-link {{ Request::is('reportes*') ? 'active' : '' }}">
     <i class="fas fa-file-signature"></i>
@@ -145,6 +191,8 @@
     </p>
   </a>          
 </li>
+@endcan
+
 
         </ul>
       </nav>

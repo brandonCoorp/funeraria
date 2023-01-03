@@ -16,6 +16,7 @@ class ServicioController extends Controller
     public function index()
     {
         //
+        $this->authorize('verificarPrivilegio','VERSRV'); 
         $servicios =Servicio::orderBy('id','Asc')->paginate(10);
         return view('servicio.index',compact('servicios'));
     }
@@ -28,6 +29,7 @@ class ServicioController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSSRV'); 
         $items=Item::get();
             return view('servicio.create', compact('items'));
     }
@@ -41,11 +43,11 @@ class ServicioController extends Controller
     public function store(Request $request)
     {
         //
-        
+        $this->authorize('verificarPrivilegio','INSSRV'); 
        $request->validate([
-        'nombre'=>'required|max:50|unique:servicios,nombre',
-        'descripcion'=>'required',
-        'cod_servicio'=>'required|min:5|max:5|unique:servicios,cod_servicio',
+        'nombre'=>'required|string|max:50|unique:servicios,nombre',
+        'descripcion'=>'required|string|max:255',
+        'cod_servicio'=>'required|min:5|max:10|unique:servicios,cod_servicio',
         'costo'=>'required|numeric|min:1',
         ]);
         $servicio =Servicio::create($request->all());
@@ -82,6 +84,7 @@ class ServicioController extends Controller
      */
     public function show($id)
     {
+      $this->authorize('verificarPrivilegio','VERSRV'); 
         //
           //  $this->authorize('tieneacceso','rol.edit');
       $servicio=Servicio::findOrFail($id);
@@ -104,6 +107,7 @@ class ServicioController extends Controller
      */
     public function edit($id)
     {
+      $this->authorize('verificarPrivilegio','MODSRV'); 
         //
          //  $this->authorize('tieneacceso','rol.edit');
       $servicio=Servicio::findOrFail($id);
@@ -127,11 +131,12 @@ class ServicioController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->authorize('verificarPrivilegio','MODSRV'); 
         //
         $servicio=Servicio::findOrFail($id);
         $request->validate([
-            'nombre'=>'required|max:50|unique:servicios,nombre,'.$servicio->id,
-            'descripcion'=>'required',
+            'nombre'=>'required|string|max:50|unique:servicios,nombre,'.$servicio->id,
+            'descripcion'=>'required|string|max:255',
             'cod_servicio'=>'required|min:5|max:5|unique:servicios,cod_servicio,'.$servicio->id,
             'costo'=>'required|numeric|min:1',
             ]);
@@ -166,6 +171,7 @@ class ServicioController extends Controller
      */
     public function destroy($id)
     {
+      $this->authorize('verificarPrivilegio','DELSRV'); 
         //
         //  $this->authorize('tieneacceso','rol.destroy');
       $servicio=Servicio::findOrFail($id);

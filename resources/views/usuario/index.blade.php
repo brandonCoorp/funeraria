@@ -19,12 +19,14 @@
 
 <div class="container-fluid">
    
-              {{-- @can('tieneacceso', 'rol.create') --}}
-                
-                <a href="{{route('usuarios.create')}}" 
-                class="btn btn-primary float-right">Nuevo Usuario</a>
+        
+              @can('verificarPrivilegio', 'INSUSR') 
+              <a href="{{route('usuarios.create')}}" 
+              class="btn btn-primary float-right">Nuevo Usuario</a>
+               @endcan 
+               
                 <br><br> 
-                {{-- @endcan --}}
+              
              
                 @include('Custom.mensaje')
 
@@ -59,16 +61,23 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-4">
-                        <a href="{{route('usuarios.edit',$usuario->id)}}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-user"></i> Editar
-                          </a>
+                      @can('verificarPrivilegio', 'MODUSR') 
+                      <a href="{{route('usuarios.edit',$usuario->id)}}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-user"></i> Editar
+                      </a>
+                       @endcan 
+                        
                     </div>
+                    
                     <div class="col-md-2">
-                        <form action="{{route('usuarios.destroy',$usuario->id)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                              <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                            </form>
+                      @can('verificarPrivilegio', 'DELUSR') 
+                      <form action="{{route('usuarios.destroy',$usuario->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                          <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                       @endcan 
+                       
                     </div>           
                   </div>
               

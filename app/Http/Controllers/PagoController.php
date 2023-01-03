@@ -15,6 +15,7 @@ class PagoController extends Controller
     {
         //
         //('tieneacceso','rol.index');
+        $this->authorize('verificarPrivilegio','VERPAG');
         $pagos =Pago::orderBy('id','Asc')->paginate(10);
         return view('pago.index',compact('pagos'));
     }
@@ -27,6 +28,7 @@ class PagoController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSPAG');
     // //('tieneacceso','rol.create');
        //$permisos=Permiso::get();
         return view('pago.create');
@@ -43,10 +45,10 @@ class PagoController extends Controller
         //
           //
        //('tieneacceso','rol.create');
- 
+       $this->authorize('verificarPrivilegio','INSPAG');
        $request->validate([
-        'nombre'=>'required|max:50|unique:pagos,nombre',
-        'descripcion'=>'required',
+        'nombre'=>'required|string|max:50|unique:pagos,nombre',
+        'descripcion'=>'required|string|max:255',
         ]);
         $rol =Pago::create($request->all());
 
@@ -62,6 +64,7 @@ class PagoController extends Controller
     public function show($id)
     {
       //  $this->authorize('tieneacceso','rol.show');
+      $this->authorize('verificarPrivilegio','VERPAG');
      $pago=Pago::findOrFail($id);
      
        return view('pago.view', compact('pago')); 
@@ -76,6 +79,7 @@ class PagoController extends Controller
     public function edit($id)
     {
     //  $this->authorize('tieneacceso','rol.edit');
+    $this->authorize('verificarPrivilegio','MODPAG');
       $pago=Pago::findOrFail($id);
       return view('pago.edit', compact('pago'));
     }
@@ -91,10 +95,11 @@ class PagoController extends Controller
     {
         //
           //    $this->authorize('tieneacceso','rol.edit');
+          $this->authorize('verificarPrivilegio','MODPAG');
           $pago=Pago::findOrFail($id);
            $request->validate([
-                'nombre'=>'required|max:50|unique:pagos,nombre,'.$pago->id,
-                'descripcion'=>'required',             
+                'nombre'=>'required|string|max:50|unique:pagos,nombre,'.$pago->id,
+                'descripcion'=>'required|string|max:255',             
                 ]);
           $pago->update($request->all());       
           return redirect()->route('pagos.index')->with('status_success','Pago Modificado con Exito');
@@ -109,6 +114,7 @@ class PagoController extends Controller
     public function destroy($id)
     {
         //  $this->authorize('tieneacceso','pago.destroy');
+        $this->authorize('verificarPrivilegio','DELPAG');
         $pago=Pago::findOrFail($id);
        
         $pago->delete();

@@ -1,7 +1,8 @@
 @extends('admin.layout.master')
-@section('title','Usuario-Crear')
+@section('title','Usuario-Editar')
 @section('page-level-css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+<link rel="stylesheet" href="{{ asset('dist/css/funeraria/usuario.css')}}">
 <style type="text/css">
 </style>  
 @endsection
@@ -15,7 +16,7 @@
     @include('Custom.mensaje')
     <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Nuevo Usuario</h3>
+          <h3 class="card-title">Editar Usuario </h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
@@ -87,22 +88,34 @@
             <div class="form-group foto-perfil">
                 <img id="blah" src="{{ asset($usuario->usuariofotofechas[0]->foto)}}" alt="your image"  width="200px"/>
             </div>
+            @can('verificarPrivilegio', 'MODROL') 
             <div class="form-group">
-                <label>Selecione Rol</label>
-                <select class="form-control" name="rol" id="rol" required>
-                    @foreach ($roles as $rol)  
-                  <option value="{{$rol->id}}"
-                    @if (old('permiso') == $rol->id)
-                        selected
-                    @elseif ($usuario->role_id == $rol->id)
-                        selected
-                        @endif
-                    
-                    >{{$rol->nombre}}</option>
-                 
-                  @endforeach
-                </select>
-              </div>
+              <label>Selecione Rol</label>
+              <select class="form-control" name="rol" id="rol" >
+                  @foreach ($roles as $rol)  
+                <option value="{{$rol->id}}"
+                  @if (old('permiso') == $rol->id)
+                      selected
+                  @elseif ($usuario->role_id == $rol->id)
+                      selected
+                      @endif
+                  
+                  >{{$rol->nombre}}</option>
+               
+                @endforeach
+              </select>
+            </div>
+             @endcan
+             <div class="form-group">
+              <label for="role">Rol </label>
+              <p>{{ $usuario->role->nombre}}</p>
+             
+              <input type="text" class="form-control form-control-border invisible" 
+              value="{{old('role', $usuario->role->id)}}" name="rolid" id="rolid" >
+            </div> 
+         
+
+
           </div>
           <!-- /.card-body -->
     

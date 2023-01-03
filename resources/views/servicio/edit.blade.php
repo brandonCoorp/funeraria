@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Servicio-Ver')
+@section('title','Servicio-Editar')
 @section('page-level-css')
 <link rel="stylesheet" href="{{ asset('dist/css/funeraria/servicio.css')}}">
 <style type="text/css">
@@ -16,7 +16,7 @@
     @include('Custom.mensaje')
     <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Nuevo Servicio</h3>
+          <h3 class="card-title">Actualizar Servicio</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->

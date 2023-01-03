@@ -29,8 +29,10 @@
 
 
                             <div class="card-tools">
-
+                                @can('verificarPrivilegio', 'INSPAQ') 
                                 <a href="{{ route('paquetes.create') }}" class="btn btn-primary float-right">Crear</a>
+                                @endcan 
+                               
 
 
                             </div>
@@ -55,25 +57,25 @@
                                             <td>{{ $paquete->nombre }}</td>
                                             <td>{{ $paquete->descripcion }}</td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERPAQ') 
                                                 <a class="btn btn-info" href="{{ route('paquetes.show', $paquete->id) }}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.edit') --}}
+                                                 @can('verificarPrivilegio', 'MODPAQ') 
                                                 <a class="btn btn-success"
                                                     href="{{ route('paquetes.edit', $paquete->id) }}">Editar</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.destroy') --}}
+                                                 @can('verificarPrivilegio', 'DELPAQ') 
                                                 <form action="{{ route('paquetes.destroy', $paquete->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger">Eliminar</button>
 
                                                 </form>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
 
                                         </tr>

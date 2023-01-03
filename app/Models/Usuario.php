@@ -9,6 +9,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Traits\UsuarioTrait;
 /**
  * Class Usuario
  * 
@@ -27,6 +28,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class Usuario extends Authenticatable
 {
+	use UsuarioTrait;
 	protected $table = 'usuarios';
 	public $timestamps = false;
 
@@ -65,4 +67,6 @@ class Usuario extends Authenticatable
 	{
 		return $this->hasMany(Visita::class);
 	}
+	
+	
 }

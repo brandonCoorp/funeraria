@@ -17,7 +17,7 @@ class RolController extends Controller
     {
         //
        //('tieneacceso','rol.index');
- 
+       $this->authorize('verificarPrivilegio','VERROL'); 
         $roles =Role::orderBy('id','Asc')->paginate(10);
         return view('rol.index',compact('roles'));
     }
@@ -31,7 +31,7 @@ class RolController extends Controller
     {
         //
       // //('tieneacceso','rol.create');
- 
+      $this->authorize('verificarPrivilegio','INSROL'); 
             $permisos=Permiso::get();
             return view('rol.create', compact('permisos'));
     }
@@ -46,10 +46,10 @@ class RolController extends Controller
     {
         //
        //('tieneacceso','rol.create');
- 
+       $this->authorize('verificarPrivilegio','INSROL'); 
         $request->validate([
-        'nombre'=>'required|max:50|unique:roles,nombre',
-        'descripcion'=>'required',
+        'nombre'=>'required|string|max:50|unique:roles,nombre',
+        'descripcion'=>'required|string|max:255',
         ]);
    $rol =Role::create($request->all());
 
@@ -84,6 +84,7 @@ class RolController extends Controller
      */
     public function show($id)
     {
+      $this->authorize('verificarPrivilegio','VERROL'); 
         //
       //  $this->authorize('tieneacceso','rol.show');
      // dd($rol);
@@ -109,6 +110,7 @@ class RolController extends Controller
     {
         //cuando pasamos id buscamos de este modo ->  $rol=Role::findOrFail($id);
       //  $this->authorize('tieneacceso','rol.edit');
+      $this->authorize('verificarPrivilegio','MODROL'); 
       $rol=Role::findOrFail($id);
         $permiso_rol=[];
        
@@ -132,11 +134,12 @@ class RolController extends Controller
      */
     public function update(Request $request, $id)
     {
-          //    $this->authorize('tieneacceso','rol.edit');
+          //    $this->authorize('tieneacceso','rol.edit')
+          $this->authorize('verificarPrivilegio','MODROL'); ;
           $rol=Role::findOrFail($id);
            $request->validate([
-                'nombre'=>'required|max:50|unique:roles,nombre,'.$rol->id,
-                'descripcion'=>'required',             
+                'nombre'=>'required|string|max:50|unique:roles,nombre,'.$rol->id,
+                'descripcion'=>'required|string|max:255',             
                 ]);
  
           $permisos = $request->get('permiso');
@@ -169,6 +172,7 @@ class RolController extends Controller
     {
         //
       //  $this->authorize('tieneacceso','rol.destroy');
+      $this->authorize('verificarPrivilegio','DELROL'); 
       $rol=Role::findOrFail($id);
         Privilegio::where('role_id', $rol->id)->delete();
         $rol->delete();

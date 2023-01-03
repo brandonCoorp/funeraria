@@ -29,8 +29,10 @@
 
 
                 <div class="card-tools">
-
-                    <a href="{{ route('sucursals.create') }}" class="btn btn-primary float-right">Crear</a>
+                  @can('verificarPrivilegio', 'INSSUC') 
+                  <a href="{{ route('sucursals.create') }}" class="btn btn-primary float-right">Crear</a>
+                   @endcan 
+                   
 
 
                 </div>
@@ -54,24 +56,24 @@
        <td>{{$sucursal->nombre}}</td>
        <td>{{$sucursal->descripcion}}</td>
       <td>
-        {{-- @can('tieneacceso', 'rol.show') --}}
+         @can('verificarPrivilegio', 'VERSUC') 
         <a class="btn btn-info" href="{{route('sucursals.show',$sucursal->id)}}">Ver</a>
-        {{-- @endcan --}}
+         @endcan 
       </td>  
       <td>
-        {{-- @can('tieneacceso', 'rol.edit') --}}
+         @can('verificarPrivilegio', 'MODSUC') 
         <a class="btn btn-success" href="{{route('sucursals.edit',$sucursal->id)}}">Editar</a>
-        {{-- @endcan --}}
+         @endcan 
       </td>  
       <td>
-        {{-- @can('tieneacceso', 'rol.destroy') --}}
+         @can('verificarPrivilegio', 'DELSUC') 
       <form action="{{route('sucursals.destroy',$sucursal->id)}}" method="post">
       @csrf
       @method('DELETE')
         <button class="btn btn-danger">Eliminar</button>
 
       </form>
-      {{-- @endcan --}}
+       @endcan 
       </td>  
        
       </tr>

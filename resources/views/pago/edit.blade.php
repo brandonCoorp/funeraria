@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Pagos-Listar')
+@section('title','Pagos-Editar')
 @section('page-level-css')
 <style type="text/css">
 </style>  
@@ -23,7 +23,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><h2>{{ __('Editar Pago') }}</h2></div>
+                <div class="card-header"><h2>{{ __('Actualizar Pago') }}</h2></div>
 
                 <div class="card-body">
                   @include('Custom.mensaje')

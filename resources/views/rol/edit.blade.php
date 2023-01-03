@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Pagos-Listar')
+@section('title','Rol-Editar')
 @section('page-level-css')
 <style type="text/css">
 </style>  
@@ -61,7 +61,7 @@
                         <label class="custom-control-label" for="permiso_{{$permiso->id}}">
                             {{$permiso->id}}
                             -
-                            {{$permiso->nombre}} : 
+                            {{$permiso->nombre}} :  {{$permiso->cod_permiso}} 
                             <em>{{$permiso->descripcion}}</em>    
                         </label>
                       </div>       

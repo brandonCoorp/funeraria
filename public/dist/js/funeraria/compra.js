@@ -68,7 +68,8 @@ $(document).on('change', '#paquete', function(event) {
         $('#nombre').val(args.nombre);
         $('#apellido_paterno').val(args.apellido_paterno);
         $('#apellido_materno').val(args.apellido_materno);
-        $('#direccion').val(args.direccion);     
+        $('#direccion').val(args.direccion);  
+        $('#telefono').val(args.telefono);     
             }
 
 

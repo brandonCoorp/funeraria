@@ -29,6 +29,7 @@ class UsuarioController extends Controller
         ->orderBy('usuarios.id','Asc')->paginate(3);*/
         //$persona  = $usuarios->persona;
       // dd($usuarios);
+      $this->authorize('verificarPrivilegio','VERUSR');
         return view('usuario.index',compact('usuarios'));
     }
 
@@ -40,6 +41,7 @@ class UsuarioController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSUSR');
         $roles=Role::get();
         return view('usuario.create', compact('roles'));
     }
@@ -55,10 +57,11 @@ class UsuarioController extends Controller
         //
            //('tieneacceso','rol.create');
        //  dd($request);
+       $this->authorize('verificarPrivilegio','INSUSR');
         $request->validate([
-            'nombre' => 'required|max:255',
-            'apellido_materno' => 'required|max:255',
-            'apellido_materno' => 'required|max:255',
+            'nombre' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
             'direccion' => 'required|max:255',
             'fecha_nac' => ['required', 'date','after:1920/01/01','before:2023/01/01'],           
             'mail'=>'required|max:255|email|unique:usuarios,mail',     
@@ -108,7 +111,12 @@ class UsuarioController extends Controller
     public function show($id)
     {
         //
-
+        $usuario=Usuario::findOrFail($id);
+        $this->authorize('update',[$usuario,['VERUSR','VOWUSR']]);
+        $persona = Persona::find($usuario->persona_id);
+        $roles =  Role::get(); 
+        
+       return view('usuario.edit', compact('usuario','roles','persona'));
     }
 
     /**
@@ -120,7 +128,11 @@ class UsuarioController extends Controller
     public function edit($id)
     {
         //
+
         $usuario=Usuario::findOrFail($id);
+        $this->authorize('update',[$usuario,['MODUSR','OWNUSR']]);
+
+       
         $persona = Persona::find($usuario->persona_id);
         $roles =  Role::get(); 
         
@@ -138,16 +150,17 @@ class UsuarioController extends Controller
     {
         //
         $usuario=Usuario::find($id);
+        $this->authorize('update',[$usuario,['MODUSR','OWNUSR']]);
+       
         $persona=Persona::find($usuario->persona_id);
         $request->validate([
-            'nombre' => 'required|max:255',
-            'apellido_materno' => 'required|max:255',
-            'apellido_materno' => 'required|max:255',
+            'nombre' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
             'direccion' => 'required|max:255',
             'fecha_nac' => ['required', 'date','after:1920/01/01','before:2023/01/01'],           
             'mail'=>'required|max:255|email|unique:usuarios,mail,'.$usuario->id,     
             'foto' =>  ['mimes:jpg,png,jfif,jpeg','max:2048'],
-            'rol' => ['required','numeric','min:1'],
             'password' => 'max:255',
 
         ]);
@@ -173,13 +186,20 @@ class UsuarioController extends Controller
         $usuario->password = Hash::make($request->input('password'));
 
         }
+        if( $request->input('rol') != null){
+            $rol  = $request->input('rol');
+        }else{
+            $rol  = $request->input('rolid');  
+        }
+
+
         $usuario->usuariofotofechas[0]->fecha_nac = $request->input('fecha_nac');
         $usuario->mail = $request->input('mail');
-        $usuario->role_id = $request->input('rol');
+        $usuario->role_id = $rol;
         $usuario->usuariofotofechas[0]->save();
         $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('status_success','Usuario Modificado con Exito');
+        return redirect()->route('home')->with('status_success','Usuario Modificado con Exito');
     }
 
     /**
@@ -191,6 +211,7 @@ class UsuarioController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('verificarPrivilegio','DELUSR');
         $usuario=Usuario::findOrFail($id);
         $persona_id = $usuario->persona_id;
         if(Storage::disk('public')->exists($usuario->usuariofotofechas[0]->foto) ){

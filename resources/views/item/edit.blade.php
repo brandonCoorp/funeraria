@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Item-Ver')
+@section('title','Item-Editar')
 @section('page-level-css')
 <style type="text/css">
 </style>  
@@ -14,7 +14,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><h2>{{ __('Ver Item') }}</h2></div>
+                <div class="card-header"><h2>{{ __('Actualizar Item') }}</h2></div>
 
                 <div class="card-body">
                   @include('Custom.mensaje')
@@ -47,13 +47,13 @@
                       </div>
                       <div class="form-group">
                         <label for="tipo">Tipo:</label><br>
-                        <p> 1.-Movilidad  2.-Decoracion  3.-Productos venta  4.-Mano de obra</p>
+                        <p> 1.-Prestamo  2.-Items de venta </p>
                         <input type="numeber" min="1" max="4" class="form-control" required 
                         value="{{old('tipo', $item->tipo)}}" name="tipo" id="tipo" >
                       </div>
                       <div class="form-group">
                         <label for="estado">Estado</label><br>
-                        <p> 1.-En Uso  2.-Reservado  3.-Dañado  4.-Retirado</p> 
+                        <p> 1.-Activo  2.-Reservado  3.-Dañado  4.-Retirado</p> 
                         <input type="number"  min="1" max="4" class="form-control" required 
                         value="{{old('estado', $item->estado)}}" name="estado" id="estado" >
                       </div>
@@ -63,25 +63,12 @@
                         value="{{old('costo_unit', $item->costo_unit)}}" name="costo_unit" id="costo_unit" >
                       </div>             
                       <hr>
-                   <h3>Sucursal</h3>     
-                      <div class="form-group">
-                       
-                        <select class="form-control" name="sucursal_id" id="sucursal_id" required >
-                            <option selected value="0">Seleccionar</option>
-                            @foreach ($sucursals as $sucursal)  
-                          <option value="{{$sucursal->id}}"
-                            @if (old('sucursal_id') == $sucursal->id)
-                            selected
-                        @elseif ($item->sucursal_id == $sucursal->id)
-                            selected
-                            @endif
-                            >{{$sucursal->nombre}}</option>
-                         
-                          @endforeach
-                        </select>
-                      </div>
+                   <h3>Sucursal</h3>   
+                    <div class="form-group">        
+                      <p>{{ $item->sucursal->nombre}}</p>
                   
-
+                    </div> 
+         
 
                       <hr>
                       <div class="card-footer">

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $telefono
  * 
  * @property Collection|Item[] $items
+ * @property Collection|Transaccione[] $transacciones
  *
  * @package App\Models
  */
@@ -37,5 +38,10 @@ class Sucursal extends Model
 	public function items()
 	{
 		return $this->hasMany(Item::class);
+	}
+
+	public function transacciones()
+	{
+		return $this->hasMany(Transaccione::class);
 	}
 }

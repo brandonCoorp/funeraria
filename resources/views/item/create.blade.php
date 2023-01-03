@@ -46,13 +46,13 @@
                       </div>
                       <div class="form-group">
                         <label for="tipo">Tipo:</label><br>
-                        <p> 1.-Movilidad  2.-Decoracion  3.-Productos venta  4.-Mano de obra</p>
+                        <p> 1.-Prestamo  2.-Items de venta </p>
                         <input type="numeber" min="1" max="4" class="form-control" required
                          value="{{old('tipo')}}" name="tipo" id="tipo" >
                       </div>
                       <div class="form-group">
                         <label for="estado">Estado</label><br>
-                        <p> 1.-En Uso  2.-Reservado  3.-Dañado  4.-Retirado</p>
+                        <p> 1.-Activo  2.-Reservado  3.-Dañado  4.-Retirado</p>
                         <input type="number"  min="1" max="4" class="form-control" required
                          value="{{old('estado')}}" name="estado" id="estado" >
                       </div>

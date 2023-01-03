@@ -17,6 +17,7 @@ class PaqueteController extends Controller
     public function index()
     {
         //
+        $this->authorize('verificarPrivilegio','VERPAQ');
         $paquetes =Paquete::orderBy('id','Asc')->paginate(10);
         return view('paquete.index',compact('paquetes'));
     }
@@ -29,6 +30,7 @@ class PaqueteController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSPAQ');
         $servicios=Servicio::get();
             return view('paquete.create', compact('servicios'));
     }
@@ -42,11 +44,12 @@ class PaqueteController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('verificarPrivilegio','INSPAQ');
       //  dd($request);
         $request->validate([
-            'nombre'=>'required|max:50|unique:paquetes,nombre',
-            'descripcion'=>'required',
-            'cod_paquete'=>'required|min:5|max:5|unique:paquetes,cod_paquete',
+            'nombre'=>'required|string|max:50|unique:paquetes,nombre',
+            'descripcion'=>'required|string|max:255',
+            'cod_paquete'=>'required|min:5|max:10|unique:paquetes,cod_paquete',
             'costo'=>'required|numeric|min:1',
             ]);
             $paquete =Paquete::create($request->all());
@@ -79,6 +82,7 @@ class PaqueteController extends Controller
     {
         //
           //  $this->authorize('tieneacceso','rol.edit');
+      $this->authorize('verificarPrivilegio','VERPAQ');
       $paquete=Paquete::findOrFail($id);
       $paqueteservicios = $paquete->servicios;
        // dd($itemservicio->id);
@@ -101,6 +105,7 @@ class PaqueteController extends Controller
     {
         //
             //  $this->authorize('tieneacceso','rol.edit');
+      $this->authorize('verificarPrivilegio','MODPAQ');       
       $paquete=Paquete::findOrFail($id);
       $paqueteservicios = $paquete->servicios;
        // dd($itemservicio->id);
@@ -123,11 +128,11 @@ class PaqueteController extends Controller
     public function update(Request $request, $id)
     {
         //
-       
+        $this->authorize('verificarPrivilegio','MODPAQ'); 
         $paquete=Paquete::findOrFail($id);
         $request->validate([
-            'nombre'=>'required|max:50|unique:servicios,nombre,'.$paquete->id,
-            'descripcion'=>'required',
+            'nombre'=>'required|string|max:50|unique:servicios,nombre,'.$paquete->id,
+            'descripcion'=>'required|string',
             'cod_paquete'=>'required|min:5|max:5|unique:paquetes,cod_paquete,'.$paquete->id,
             'costo'=>'required|numeric|min:1',
             ]);
@@ -161,6 +166,7 @@ class PaqueteController extends Controller
     {
         //
           //  $this->authorize('tieneacceso','rol.destroy');
+      $this->authorize('verificarPrivilegio','DELPAQ');     
       $paquete=Paquete::findOrFail($id);
       if($paquete != null){
         Paqueteservicio::where('paquete_id', $paquete->id)->delete();
@@ -182,7 +188,7 @@ class PaqueteController extends Controller
       
           if($paquete){
             return $paquete->servicios;
-            dd($paquete->servicios);
+           // dd($paquete->servicios);
   
           }
         }    

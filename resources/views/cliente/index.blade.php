@@ -38,7 +38,6 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Telefono</th>
-                                        <th scope="col">Tipo</th>
                                         <th scope="col">Direccion</th>                      
                                         <th colspan="2"></th>
                                     </tr>
@@ -50,19 +49,19 @@
                                             <td>{{ $cliente->persona->nombre }} 
                                                 {{ $cliente->persona->apellido_paterno }} 
                                                 {{ $cliente->persona->apellido_materno }}</td>
-                                            <td>{{ $cliente->telefono}}</td>
-                                            <td>{{ $cliente->tipo }}</td>
+                                            <td>{{ $cliente->telefono}}</td>                           
                                             <td>{{ $cliente->persona->direccion }}</td>                                         
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERCLI') 
+ 
                                                 <a class="btn btn-info" href="{{ route('clientes.show', $cliente->id) }}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.edit') --}}
+                                                 @can('verificarPrivilegio', 'MODCLI') 
                                                 <a class="btn btn-success"
                                                     href="{{ route('clientes.edit', $cliente->id) }}">Editar</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                         </tr>
                                     @endforeach

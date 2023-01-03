@@ -22,7 +22,7 @@
         </div><!-- /.container-fluid -->
       </div>
       <!-- /.content-header -->
-  
+      @include('Custom.mensaje')
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">

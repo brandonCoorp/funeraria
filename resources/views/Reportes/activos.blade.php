@@ -20,7 +20,7 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+      
           <li class="breadcrumb-item active">Dashboard v1</li>
         </ol>
       </div><!-- /.col -->
@@ -48,7 +48,7 @@
                   @csrf
                  <label>Selecione Reporte</label>
                  <select class="form-control selectOption" name="selectReporte" id="selectReporte" required>
-                     <option class="selectOption" selected value="compras">Compras</option>
+                     <option class="selectOption"  value="compras">Compras</option>
                      <option  class="selectOption" value="usuarios">Usuarios</option>
                      <option  class="selectOption"  value="clientes">Clientes</option>
                      <option  class="selectOption" value="pagos">Pagos</option>
@@ -59,7 +59,7 @@
                      <option  class="selectOption" value="paquetes">Paquetes</option>
                      <option  class="selectOption" value="comisiones">Comisiones</option>
                      <option  class="selectOption" value="contratos">Contratos</option>
-                     <option  class="selectOption" value="activos">Activos</option>
+                     <option  class="selectOption" selected value="activos">Activos</option>
                  </select>
                 
            </form>
@@ -77,15 +77,27 @@
                         @foreach ($datos as $dato)
                         <tr>
                         <td>{{$dato->id}}</td>
-                        <td>{{$dato->cliente->persona->nombre}} {{$dato->cliente->persona->apellido_paterno}} {{$dato->cliente->persona->apellido_materno}}</td>
-                        <td>{{$dato->costo}}</td>
-                        <td>{{$dato->fecha}}</td>
-                        <td>{{$dato->fecha_entrega}}</td>
-                        <td>{{$dato->pago->nombre}}</td>
-                        <td>{{$dato->paquete->nombre}}</td>
+                        <td>
+                          @if ($dato->tipo == 10)
+                           Transferencia
+                        @elseif ($dato->tipo == 1)
+                         Ajuste de Faltantes
+                         @elseif ($dato->tipo == 2)
+                         Ingreso Compra de Item
+                         @elseif ($dato->tipo == 3)
+                          Productos Dañados
+                         @elseif ($dato->tipo == 4)
+                          Excedentes de Item
+                        @endif        
+                        </td>
+                        <td>{{$dato->cantidad}}</td>
+                        <td>{{$dato->fecha->format('Y-m-d')}}</td>
+                        <td>{{$dato->item_nombre}}</td>
+                        <td>{{$dato->usuario}}</td>
+                        <td>{{$dato->sucursal->nombre}}</td>
                     </tr>        
                         @endforeach
-                       
+                     
                           
                     
                       </tbody>

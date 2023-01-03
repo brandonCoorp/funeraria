@@ -44,6 +44,12 @@
                 <input type="text" class="form-control" name="direccion"  id="direccion" placeholder="Direccion" required>
                 <input type="number" class="form-control form-control "  name="cliente_id" id="cliente_id" hidden="none">
               </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                </div>
+                <input type="number" class="form-control"  value="{{old('telefono')}}" name="telefono" id="telefono">
+              </div>
               <div class="form-group">
                 <label>Fecha de la Entrega:</label>            
                 <div class="input-group date" id="datepicker">

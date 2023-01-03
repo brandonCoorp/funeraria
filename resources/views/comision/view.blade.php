@@ -20,9 +20,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form action="#" method="POST">
-            @csrf
-            @method('PUT')
+      
           <div class="card-body">
             <div class="form-group">
                 <label for="mail">Mail Usuario </label>
@@ -67,7 +65,7 @@
           <div class="card-footer">
             <a href="{{route('comisions.index')}}" class="btn btn-danger">volver</a>
           </div>
-        </form>
+        
       </div>
         
        

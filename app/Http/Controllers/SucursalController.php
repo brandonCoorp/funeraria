@@ -14,6 +14,7 @@ class SucursalController extends Controller
     public function index()
     {
         //
+        $this->authorize('verificarPrivilegio','VERSUC'); 
         $sucursals =Sucursal::orderBy('id','Asc')->paginate(10);
         return view('sucursal.index',compact('sucursals'));
 
@@ -27,6 +28,7 @@ class SucursalController extends Controller
     public function create()
     {
         //
+        $this->authorize('verificarPrivilegio','INSSUC'); 
         return view('sucursal.create');
     }
 
@@ -40,12 +42,12 @@ class SucursalController extends Controller
     {
         //
         //('tieneacceso','rol.create');
- 
+        $this->authorize('verificarPrivilegio','INSSUC'); 
        $request->validate([
-        'nombre'=>'required|max:50|unique:sucursal,nombre',
-        'descripcion'=>'required',
+        'nombre'=>'required|string|max:50|unique:sucursal,nombre',
+        'descripcion'=>'required|string|max:255',
         'direccion'=>'required',
-        'telefono'=>'required',
+        'telefono'=>'required|numeric|min:11111111|max:11111111111',
         ]);
         $sucursal =Sucursal::create($request->all());
 
@@ -61,6 +63,7 @@ class SucursalController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('verificarPrivilegio','VERSUC'); 
         $sucursal =Sucursal::findOrFail($id);
      
        return view('sucursal.view', compact('sucursal'));
@@ -76,6 +79,7 @@ class SucursalController extends Controller
     {
         //
          //  $this->authorize('tieneacceso','rol.edit');
+         $this->authorize('verificarPrivilegio','MODSUC'); 
          $sucursal =Sucursal::findOrFail($id);
       return view('sucursal.edit', compact('sucursal'));
     }
@@ -89,14 +93,15 @@ class SucursalController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('verificarPrivilegio','MODSUC'); 
         //
           //    $this->authorize('tieneacceso','rol.edit');
           $sucursal =Sucursal::findOrFail($id);
            $request->validate([
-                'nombre'=>'required|max:50|unique:sucursal,nombre,'.$sucursal->id,
-                'descripcion'=>'required', 
+                'nombre'=>'required|string|max:50|unique:sucursal,nombre,'.$sucursal->id,
+                'descripcion'=>'required|string|max:255', 
                 'direccion'=>'required', 
-                'telefono'=>'required', 
+                'telefono'=>'required|numeric|min:11111111|max:11111111111',
                            
                 ]);
           $sucursal->update($request->all());       
@@ -112,7 +117,7 @@ class SucursalController extends Controller
     public function destroy($id)
     {
         //
-        
+        $this->authorize('verificarPrivilegio','DELSUC'); 
         //  $this->authorize('tieneacceso','pago.destroy');
         $sucursal =Sucursal::findOrFail($id);
        

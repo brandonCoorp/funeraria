@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Pagos-Listar')
+@section('title','Pagos-Crear')
 @section('page-level-css')
 <style type="text/css">
 </style>  

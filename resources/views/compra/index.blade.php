@@ -30,8 +30,10 @@
 
 
                             <div class="card-tools">
-
+                                @can('verificarPrivilegio', 'INSCPA') 
                                 <a href="{{ route('compras.create') }}" class="btn btn-primary float-right">Nueva Compra</a>
+                                 @endcan 
+                               
 
 
                             </div>
@@ -64,9 +66,9 @@
                                             <td>{{ $compra->costo }} Bs.</td>
                                             
                                             <td>
-                                                {{-- @can('tieneacceso', 'rol.show') --}}
+                                                 @can('verificarPrivilegio', 'VERCPA') 
                                                 <a class="btn btn-info" href="{{ route('compras.show', $compra->id) }}">Ver</a>
-                                                {{-- @endcan --}}
+                                                 @endcan 
                                             </td>
                                         </tr>
                                     @endforeach

@@ -28,9 +28,7 @@
                 <div class="card-body">
                   @include('Custom.mensaje')
 
-                    <form action="{{route('roles.update', $rol->id)}}" method="POST">
-                      @csrf
-                      @method('PUT')
+                   
                      <div class="containner">
                        <h3>Requisito de Datos</h3>
                        <div class="form-group">
@@ -62,7 +60,7 @@
                         <label class="custom-control-label" for="permiso_{{$permiso->id}}">
                             {{$permiso->id}}
                             -
-                            {{$permiso->nombre}} : 
+                            {{$permiso->nombre}} :  {{$permiso->cod_permiso}} 
                             <em>{{$permiso->descripcion}}</em>    
                         </label>
                       </div>       
@@ -70,14 +68,16 @@
 
 
                       <hr>
-                    <a href="{{route('roles.edit',$rol->id)}}" class="btn btn-success">Editar</a>
                     
+                    @can('verificarPrivilegio', 'MODROL') 
+                    <a href="{{route('roles.edit',$rol->id)}}" class="btn btn-success">Editar</a>
+                     @endcan
                     <a href="{{route('roles.index')}}" class="btn btn-danger">volver</a>
                     
                     </div>
 
 
-           </form>
+        
            
            
            
