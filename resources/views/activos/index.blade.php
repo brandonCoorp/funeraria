@@ -63,7 +63,11 @@
                                             <th scope="row">{{ $item->id }}</th>
                                             <td>{{ $item->cod_item }}</td>
                                             <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->cantidad }}</td>
+                                            <td
+                                            @if($item->cantidad < 1) 
+                                            style="background-color: rgba(255, 34, 12, 0.6)"
+                                            @endif
+                                            >{{ $item->cantidad }}</td>
                                             <td>
                                                 @if ($item->estado == 1)
                                                 <span class="badge badge-success">Activo</span>

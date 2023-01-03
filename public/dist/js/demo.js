@@ -283,11 +283,13 @@ function estilosElegidos(tipo,tema){
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-teal elevation-4 bg-teal' )
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-teal')
       $('.nav-link ').addClass('blanco' )
+      $('.nav-link.active').removeClass('blanco').addClass('negro' )
       $('#sideUser').removeClass().addClass('d-block blanco')
     }else{
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-teal elevation-4 bg-teal')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-teal')
       $('.nav-link ').removeClass('blanco')
+      $('.nav-link.active').removeClass('blanco').addClass('negro' )
       $('#sideUser').removeClass().addClass('d-block')
     }
     $('#logo_funeraria').removeClass().addClass('brand-link bg-teal')
@@ -299,6 +301,7 @@ function estilosElegidos(tipo,tema){
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-maroon elevation-4 bg-maroon')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-maroon')
       $('.nav-link ').removeClass('negro')
+      $('.nav-link.active').removeClass('blanco').addClass('negro' )
       $('#sideUser').removeClass().addClass('d-block text-normal')
     }else{
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-maroon elevation-4 bg-maroon')
@@ -314,6 +317,7 @@ function estilosElegidos(tipo,tema){
     if(tema == 'dark'){
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-dark-primary elevation-4 bg-primary')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-dark bg-primary')
+
     }else{
       $('#nav_Izq').removeClass().addClass('main-sidebar sidebar-light-primary elevation-4 bg-primary')
       $('#navbar_header_user').removeClass().addClass('main-header navbar navbar-expand navbar-white navbar-light bg-primary')
@@ -329,7 +333,7 @@ function obtenerPath(){
 var paths =  pathname.split('/')
 var cant = paths.length -1
 
-cant = cant //- 5;
+cant = cant - 5;
 var path = '';
 for (let index = 0; index < cant; index++) {
   path = path + '../'  
@@ -343,7 +347,7 @@ var pathname = window.location.pathname;
 var paths =  pathname.split('/')
 var cant = paths.length -1
 
-cant = cant //- 5;
+cant = cant - 5;
 var path = '';
 for (let index = 0; index < cant; index++) {
   path = path + '../'  

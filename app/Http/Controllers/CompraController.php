@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Compra;
 use App\Models\Pago;
 use App\Models\Paquete;
+use App\Models\Item;
+use App\Models\Servicio;
+use App\Models\Itemservicio;
+
 use App\Models\Comisione;
 use App\Models\Contrato;
 use App\Models\Cliente;
@@ -67,6 +71,10 @@ class CompraController extends Controller
             'telefono'=>'required|numeric|min:11111111|max:11111111111',
         ]);
 
+       // $this->ActualizarStock($request->input('paquete'));
+
+
+
         $cliente =null;
         //dd($request);
         if($request->input('cliente_id')){
@@ -94,6 +102,7 @@ class CompraController extends Controller
      //   $cliente = Cliente::
 
         $paquete = Paquete::find($request->input('paquete'));
+
 //dd(auth('usuario')->user()->mail);
 
         $compra =  Compra::create([
@@ -121,6 +130,8 @@ class CompraController extends Controller
             ]);
         
       //  dd($request);
+      $this->ActualizarStock($request->input('paquete'));
+
         return redirect()->route('compras.index')->with('status_success','Compra Realizada con Exito');
 
     }
@@ -180,4 +191,33 @@ class CompraController extends Controller
         //
         $this->authorize('verificarPrivilegio','DELCPA');
     }
+
+    private function ActualizarStock($id){
+       
+        $paquete = Paquete::find($id);
+        $servicios = $paquete->servicios;
+        foreach ($servicios as $key => $servicio) {
+           // $tems = $servicio->items;
+           $itemServicios =  Itemservicio::where('servicio_id',$servicio->id)->get();
+           foreach ($itemServicios as $key => $itemServicio) {
+            # code...
+            $item = Item::find( $itemServicio->item_id);
+            if($item->tipo == 2){
+                $resta = $item->cantidad - $itemServicio->cantidad;
+              //  echo($item);
+                $item->cantidad = $resta;
+                   $item->save();
+            //    echo($item);
+            }
+          
+         
+           }
+       //    echo($itemServicios);
+        }
+//dd($paquete);
+    }
 }
+
+
+
+
