@@ -48,7 +48,7 @@
                   @csrf
                  <label>Selecione Reporte</label>
                  <select class="form-control selectOption" name="selectReporte" id="selectReporte" required>
-                     <option class="selectOption"  value="compras">Compras</option>
+                     <option class="selectOption"  value="compras">Ventas</option>
                      <option  class="selectOption" value="usuarios">Usuarios</option>
                      <option  class="selectOption"  value="clientes">Clientes</option>
                      <option  class="selectOption" value="pagos">Pagos</option>

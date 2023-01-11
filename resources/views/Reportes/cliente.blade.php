@@ -20,7 +20,7 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+         
           <li class="breadcrumb-item active">Dashboard v1</li>
         </ol>
       </div><!-- /.col -->
@@ -48,7 +48,7 @@
                   @csrf
                  <label>Selecione Reporte</label>
                  <select class="form-control selectOption" name="selectReporte" id="selectReporte" required>
-                     <option class="selectOption"  value="compras">Compras</option>
+                     <option class="selectOption"  value="compras">Ventas</option>
                      <option  class="selectOption" value="usuarios">Usuarios</option>
                      <option  class="selectOption" selected value="clientes">Clientes</option>
                      <option  class="selectOption" value="pagos">Pagos</option>
