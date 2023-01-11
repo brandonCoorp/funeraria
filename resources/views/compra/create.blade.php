@@ -106,6 +106,17 @@
                   @endforeach
                 </select>
               </div>
+              <h2>Sucursal</h2>
+              <div class="form-group">
+                  <label>Selecione Sucursal</label>
+                  <select class="form-control" name="sucursal_id" id="sucursal_id" required>
+                      <option selected value="0">Seleccionar</option>
+                      @foreach ($sucursals as $sucursal)  
+                    <option value="{{$sucursal->id}}">{{$sucursal->nombre}}</option>
+                   
+                    @endforeach
+                  </select>
+                </div>
           </div>
           <!-- /.card-body -->
     

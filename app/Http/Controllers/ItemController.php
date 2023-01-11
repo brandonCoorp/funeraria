@@ -17,7 +17,7 @@ class ItemController extends Controller
         //
          //('tieneacceso','rol.index');
          $this->authorize('verificarPrivilegio','VERITM');
-         $items =Item::orderBy('id','Asc')->paginate(5);
+         $items =Item::orderBy('id','Asc')->paginate(10);
          return view('item.index',compact('items'));
     }
 
@@ -53,7 +53,31 @@ class ItemController extends Controller
             'costo_unit'=>'required|numeric',
             'sucursal_id'=>'required|numeric|min:1'
             ]);
-            $rol =Item::create($request->all());
+            
+            $itemExiste = Item::where('nombre', $request->input('nombre'))->where('sucursal_id',$request->input('sucursal_id'))->first();
+          
+
+            if($itemExiste){
+              
+                return redirect()->route('items.index')->withErrors(['msg' => 'La Sucursal '.$itemExiste->sucursal->nombre.' ya tiene el item registrado por favor ingrese uno diferente.']);
+              
+            }else{
+                $itemExiste  = Item::where('nombre', $request->input('nombre'))->first();
+                    if($itemExiste){
+                        return redirect()->route('items.index')->withErrors(['msg' => 'El Item ya está registrado si desea añadirlo a una nueva Sucursal porfavor realizarlo desde Activos por medio de Transferencia de Item']);
+                    }else{
+                        $itemExiste  = Item::where('cod_item', $request->input('cod_item'))->first();
+                        if($itemExiste){
+                            return redirect()->route('items.index')->withErrors(['msg' => 'El Codigo de Item ya está registrado por favor ingrese uno diferente']);
+                        }else{
+                            $rol =Item::create($request->all());
+                        }
+                       
+                    }
+                 
+            }
+            
+
     
             return redirect()->route('items.index')->with('status_success','Item guardado con Exito');
     }
@@ -110,8 +134,43 @@ class ItemController extends Controller
             'estado'=>'required|numeric|min:1|max:4',
             ]);
             $item = Item::find($id);
+
+            if($request->input('nombre') == $item->nombre && $request->input('cod_item') != $item->cod_item){
+                $buscarItems = Item::where('cod_item', $request->input('cod_item'))->get();
+                foreach ($buscarItems as $key => $buscarItem) {
+                    if($buscarItem->nombre != $item->nombre){
+                        return redirect()->route('items.edit',$id)->withErrors(['msg' => 'El Codigo de Item ya está registrado por favor ingrese uno diferente']);
+                    }
+                }
+            }else if($request->input('nombre') != $item->nombre && $request->input('cod_item') == $item->cod_item){
+                $buscarItems = Item::where('nombre', $request->input('nombre'))->get();
+                foreach ($buscarItems as $key => $buscarItem) {
+                    if($buscarItem->cod_item != $item->cod_item){
+                        return redirect()->route('items.edit',$id)->withErrors(['msg' => 'El Nombre de Item ya está registrado por favor ingrese uno diferente']);
+                    }
+                }
+            }else if($request->input('nombre') != $item->nombre && $request->input('cod_item') != $item->cod_item){
+                $buscarItems = Item::where('cod_item', $request->input('cod_item'))->where('nombre', $request->input('nombre'))->first();
+                if($buscarItems){
+                    return redirect()->route('items.edit',$id)->withErrors(['msg' => 'El Codigo y Nombre de Item ya está registrado por favor ingrese uno diferente']);
+                }
+                $buscarItems = Item::where('cod_item', $request->input('cod_item'))->first();
+                if($buscarItems){
+                    return redirect()->route('items.edit',$id)->withErrors(['msg' => 'El Codigo de Item ya está registrado por favor ingrese uno diferente']);
+                }
+                $buscarItems = Item::where('nombre', $request->input('nombre'))->first();
+                if($buscarItems){
+                    return redirect()->route('items.edit',$id)->withErrors(['msg' => 'El Nombre de Item ya está registrado por favor ingrese uno diferente']);
+                }
+            }
+
+
             if($item){
-                $item->update($request->all());
+                $items = Item::where('nombre', $item->nombre)->get();
+                foreach ($items as $key => $iteem) {
+                    $iteem->update($request->all());
+                }
+               
             }
 
         return redirect()->route('items.index')->with('status_success','Item Modificado con Exito');    

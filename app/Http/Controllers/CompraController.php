@@ -10,6 +10,8 @@ use App\Models\Item;
 use App\Models\Servicio;
 use App\Models\Itemservicio;
 
+use App\Models\Sucursal;
+
 use App\Models\Comisione;
 use App\Models\Contrato;
 use App\Models\Cliente;
@@ -42,8 +44,8 @@ class CompraController extends Controller
         $this->authorize('verificarPrivilegio','INSCPA');
         $pagos=Pago::get();
         $paquetes=Paquete::get();
-        
-        return view('compra.create', compact('pagos','paquetes'));
+        $sucursals=Sucursal::get();
+        return view('compra.create', compact('pagos','paquetes','sucursals'));
     }
 
     /**
@@ -69,6 +71,7 @@ class CompraController extends Controller
             'paquete' => 'required|numeric|min:1',
             'pago' => 'required|numeric|min:1',
             'telefono'=>'required|numeric|min:11111111|max:11111111111',
+            'sucursal_id' => 'required|numeric|min:1',
         ]);
 
        // $this->ActualizarStock($request->input('paquete'));
@@ -130,7 +133,8 @@ class CompraController extends Controller
             ]);
         
       //  dd($request);
-      $this->ActualizarStock($request->input('paquete'));
+      $sucursal_id = $request->input('sucursal_id');
+      $this->ActualizarStock($request->input('paquete'),$sucursal_id);
 
         return redirect()->route('compras.index')->with('status_success','Compra Realizada con Exito');
 
@@ -192,7 +196,7 @@ class CompraController extends Controller
         $this->authorize('verificarPrivilegio','DELCPA');
     }
 
-    private function ActualizarStock($id){
+    private function ActualizarStock($id,$sucursal_id){
        
         $paquete = Paquete::find($id);
         $servicios = $paquete->servicios;
@@ -201,13 +205,35 @@ class CompraController extends Controller
            $itemServicios =  Itemservicio::where('servicio_id',$servicio->id)->get();
            foreach ($itemServicios as $key => $itemServicio) {
             # code...
-            $item = Item::find( $itemServicio->item_id);
+            $item = Item::find($itemServicio->item_id);
             if($item->tipo == 2){
-                $resta = $item->cantidad - $itemServicio->cantidad;
+                $itemSuc = Item::where('nombre', $item->nombre)->where('sucursal_id',$sucursal_id)->first();
+                if($itemSuc){
+                  /*  $resta = $itemSuc->cantidad - $itemServicio->cantidad;
+                    //  echo($item);
+                      $itemSuc->cantidad = $resta;
+                         $itemSuc->save();*/
+                }else{
+                    $itemSuc =  Item::create([
+                        'cod_item' =>$item->cod_item,
+                        'nombre' =>$item->nombre,
+                        'descripcion' =>$item->descripcion,
+                        'cantidad' =>$item->cantidad,
+                        'tipo' =>$item->tipo,
+                        'estado' =>$item->estado,
+                        'costo_unit' =>$item->costo_unit,
+                        'sucursal_id' =>$sucursal_id
+                        ]);
+                }
+                $resta = $itemSuc->cantidad - $itemServicio->cantidad;
+                $itemSuc->cantidad = $resta;
+                $itemSuc->save();
+
+            /*    $resta = $item->cantidad - $itemServicio->cantidad;
               //  echo($item);
                 $item->cantidad = $resta;
                    $item->save();
-            //    echo($item);
+            //    echo($item);*/
             }
           
          
